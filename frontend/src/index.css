@@ -1,0 +1,49 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter Tight", ui-sans-serif, system-ui, sans-serif;
+
+  --color-ink: #0a0a0a;
+  --color-charcoal: #1e2026;
+  --color-volt: #ffe500;
+  --color-volt-hi: #fff04d;
+  --color-line: rgb(255 255 255 / 0.12);
+  --color-mute: #8a8a8a;
+  --color-soft: #bdbdbd;
+  --color-paper: #f2f2f0;
+  --color-danger: #ff5a5a;
+
+  --animate-marquee: marquee 28s linear infinite;
+
+  @keyframes marquee {
+    to {
+      transform: translateX(-50%);
+    }
+  }
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--color-ink);
+  color: var(--color-paper);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  font-feature-settings: "ss01", "cv11";
+}
+
+::selection {
+  background: var(--color-volt);
+  color: var(--color-ink);
+}
+
+input:-webkit-autofill {
+  -webkit-text-fill-color: var(--color-paper);
+  -webkit-box-shadow: 0 0 0 1000px var(--color-charcoal) inset;
+  caret-color: var(--color-paper);
+}
