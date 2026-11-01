@@ -1,6 +1,6 @@
 import Card from '../common/Card.jsx'
 
-export default function WorkoutCard({ workout }) {
+export default function WorkoutCard({ workout, onManual }) {
   return (
     <Card className="lg:col-span-4" delay={0.08}>
       <div className="mb-5 flex items-center justify-between">
@@ -29,7 +29,11 @@ export default function WorkoutCard({ workout }) {
         <button className="h-11 rounded-full bg-volt text-sm font-semibold text-ink transition hover:bg-volt-hi">
           AI camera
         </button>
-        <button className="h-11 rounded-full border border-line text-sm font-medium transition hover:border-paper">
+        <button
+          type="button"
+          onClick={onManual}
+          className="h-11 rounded-full border border-line text-sm font-medium transition hover:border-paper"
+        >
           Manual
         </button>
       </div>

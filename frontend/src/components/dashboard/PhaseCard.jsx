@@ -2,7 +2,7 @@ import { motion } from 'framer-motion'
 import { ArrowUpRight } from 'lucide-react'
 import { EASE_OUT } from '../../constants/animation.js'
 
-export default function PhaseCard({ phase }) {
+export default function PhaseCard({ phase, onStartWorkout }) {
   const percent = Math.round((phase.week / phase.totalWeeks) * 100)
 
   return (
@@ -45,7 +45,10 @@ export default function PhaseCard({ phase }) {
           </div>
         </div>
 
-        <button className="group mt-8 inline-flex h-12 items-center gap-4 rounded-full bg-ink pr-1.5 pl-6 font-medium text-paper transition hover:bg-black">
+        <button
+          type="button"
+          onClick={onStartWorkout}
+          className="group mt-8 inline-flex h-12 items-center gap-4 rounded-full bg-ink pr-1.5 pl-6 font-medium text-paper transition hover:bg-black">
           Start today&apos;s workout
           <span className="flex h-9 w-9 items-center justify-center rounded-full bg-volt text-ink transition-transform duration-300 group-hover:rotate-45">
             <ArrowUpRight className="h-4 w-4" />
