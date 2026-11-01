@@ -8,7 +8,6 @@ import PrimaryButton from '../../components/common/PrimaryButton.jsx'
 import TextField from '../../components/common/TextField.jsx'
 import { useAuth } from '../../context/AuthContext.jsx'
 import AuthLayout from '../../layouts/AuthLayout.jsx'
-import { savePendingGoal } from '../../lib/pendingGoal.js'
 import { setRememberMe, supabase } from '../../lib/supabase.js'
 import { getAuthErrorMessage } from '../../utils/authErrors.js'
 import { isValidEmail, isValidUsername } from '../../utils/validation.js'
@@ -125,7 +124,6 @@ export default function Login() {
     setLoading(true)
     setNotice(null)
     setRememberMe(form.remember)
-    savePendingGoal(form.goal)
 
     if (isSignup) {
       await signUp()
@@ -157,11 +155,9 @@ export default function Login() {
   return (
     <AuthLayout
       title={isSignup ? 'Create account' : 'Welcome'}
-      subtitle={isSignup ? 'One last step — pick your username.' : 'Log in, or enter a new email to create your account.'}
+      subtitle={isSignup ? 'One last step — pick your phase and username.' : 'Log in, or enter a new email to create your account.'}
     >
-      <GoalPicker value={form.goal} onChange={(goal) => setForm({ ...form, goal })} />
-
-      <form onSubmit={handleSubmit} className="mt-[3vh] space-y-4" noValidate>
+      <form onSubmit={handleSubmit} className="space-y-4" noValidate>
         <TextField
           id="email"
           label="Email"
@@ -193,8 +189,12 @@ export default function Login() {
               animate={{ height: 'auto', opacity: 1 }}
               exit={{ height: 0, opacity: 0 }}
               transition={{ duration: 0.3 }}
-              className="overflow-hidden"
+              className="space-y-4 overflow-hidden"
             >
+              <div>
+                <p className="mb-2 text-[11px] font-medium tracking-[0.14em] text-mute uppercase">Your phase</p>
+                <GoalPicker value={form.goal} onChange={(goal) => setForm({ ...form, goal })} />
+              </div>
               <TextField
                 ref={usernameRef}
                 id="username"
