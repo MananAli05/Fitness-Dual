@@ -1,6 +1,7 @@
 import { BrowserRouter } from 'react-router-dom'
 import { AuthProvider } from './context/AuthContext.jsx'
 import { ProfileProvider } from './context/ProfileContext.jsx'
+import { WorkoutProvider } from './context/WorkoutContext.jsx'
 import AppRoutes from './routes/AppRoutes.jsx'
 
 export default function App() {
@@ -8,7 +9,9 @@ export default function App() {
     <BrowserRouter>
       <AuthProvider>
         <ProfileProvider>
-          <AppRoutes />
+          <WorkoutProvider>
+            <AppRoutes />
+          </WorkoutProvider>
         </ProfileProvider>
       </AuthProvider>
     </BrowserRouter>

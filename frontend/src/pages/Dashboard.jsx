@@ -1,9 +1,12 @@
+import { useNavigate } from 'react-router-dom'
 import PhaseCard from '../components/dashboard/PhaseCard.jsx'
 import StatCard from '../components/dashboard/StatCard.jsx'
 import WorkoutCard from '../components/dashboard/WorkoutCard.jsx'
 import { useProfile } from '../context/ProfileContext.jsx'
+import { useWorkout } from '../context/WorkoutContext.jsx'
 import { dashboardByGoal } from '../data/mockDashboard.js'
 import AppLayout from '../layouts/AppLayout.jsx'
+import { getTodaysPlan } from '../utils/workouts.js'
 
 const TODAY = new Date().toLocaleDateString('en-US', { weekday: 'long', day: 'numeric', month: 'long' })
 
@@ -16,8 +19,18 @@ function getGreeting() {
 }
 
 export default function Dashboard() {
+  const navigate = useNavigate()
   const { name, goal, targets } = useProfile()
+  const { activeWorkout, startWorkout } = useWorkout()
   const dashboard = dashboardByGoal[goal] ?? dashboardByGoal.bulk
+
+  const startTodaysWorkout = () => {
+    if (!activeWorkout) {
+      const plan = getTodaysPlan(goal)
+      startWorkout({ title: plan.title, exerciseIds: plan.exerciseIds })
+    }
+    navigate('/workouts/session')
+  }
 
   return (
     <AppLayout>
@@ -35,8 +48,8 @@ export default function Dashboard() {
         </header>
 
         <div className="mt-8 grid grid-cols-1 gap-4 lg:grid-cols-12">
-          <PhaseCard phase={dashboard.phase} />
-          <WorkoutCard workout={dashboard.workout} />
+          <PhaseCard phase={dashboard.phase} onStartWorkout={startTodaysWorkout} />
+          <WorkoutCard workout={dashboard.workout} onManual={startTodaysWorkout} />
 
           <div className="grid grid-cols-2 gap-4 lg:col-span-12 lg:grid-cols-4">
             <StatCard
