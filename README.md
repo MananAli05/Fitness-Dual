@@ -15,13 +15,17 @@ Fitness_Dual_Project/
 │       │   ├── auth/         Login components
 │       │   ├── common/       Reusable UI (Alert, Card, Logo, TextField...)
 │       │   ├── dashboard/    Dashboard cards
+│       │   ├── history/      Workout history and summary
+│       │   ├── nutrition/    Food log, meal plan and water
 │       │   ├── onboarding/   Onboarding components
-│       │   └── profile/      Profile components
+│       │   ├── profile/      Profile components
+│       │   ├── progress/     Progress charts
+│       │   └── workouts/     Exercise library and workout session
 │       ├── constants/        Fixed values and options
-│       ├── context/          Auth and profile state
+│       ├── context/          Auth, profile and active workout state
 │       ├── data/             Sample dashboard data
 │       ├── layouts/          Page layouts
-│       ├── lib/              Supabase client
+│       ├── lib/              Supabase client and data functions
 │       ├── pages/            App screens
 │       ├── routes/           App routes
 │       └── utils/            Helper functions
@@ -45,3 +49,10 @@ The app runs at http://localhost:5173
 ## Database
 
 Run the files in `supabase/migrations` in order, in the Supabase SQL Editor.
+
+| File | Adds |
+| --- | --- |
+| `001_profiles.sql` | Profiles table and signup trigger |
+| `002_username_and_signup.sql` | Usernames and signup checks |
+| `003_profile_onboarding.sql` | Activity level and onboarding flag |
+| `004_workouts_nutrition_water.sql` | Workouts, workout sets, food logs and water logs |
