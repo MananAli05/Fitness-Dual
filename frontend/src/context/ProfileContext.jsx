@@ -6,7 +6,7 @@ import { useAuth } from './AuthContext.jsx'
 const ProfileContext = createContext(null)
 
 const PROFILE_FIELDS =
-  'username, full_name, goal, gender, age, height_cm, weight_kg, activity_level, fitness_level, onboarded'
+  'username, full_name, goal, gender, age, height_cm, weight_kg, activity_level, fitness_level, onboarded, phase_started_at'
 
 export function ProfileProvider({ children }) {
   const { user } = useAuth()
