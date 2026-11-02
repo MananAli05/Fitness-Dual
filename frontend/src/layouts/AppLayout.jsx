@@ -1,11 +1,16 @@
 import { LogOut } from 'lucide-react'
 import { NavLink } from 'react-router-dom'
 import Logo from '../components/common/Logo.jsx'
-import { NAV_ITEMS } from '../constants/navigation.js'
+import { MOBILE_TOP_ITEMS, NAV_ITEMS } from '../constants/navigation.js'
 import { useAuth } from '../context/AuthContext.jsx'
+import { useNotifications } from '../context/NotificationContext.jsx'
 import { useProfile } from '../context/ProfileContext.jsx'
 
-function SidebarItem({ label, icon: Icon, to }) {
+function formatBadge(count) {
+  return count > 9 ? '9+' : String(count)
+}
+
+function SidebarItem({ label, icon: Icon, to, badge }) {
   const baseClass = 'flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm transition'
 
   if (!to) {
@@ -29,6 +34,33 @@ function SidebarItem({ label, icon: Icon, to }) {
     >
       <Icon className="h-4.5 w-4.5" strokeWidth={1.75} />
       {label}
+      {badge > 0 && (
+        <span className="ml-auto rounded-full bg-paper px-2 py-0.5 text-[10px] font-semibold text-ink tabular-nums">
+          {formatBadge(badge)}
+        </span>
+      )}
+    </NavLink>
+  )
+}
+
+function MobileTopItem({ label, icon: Icon, to, badge }) {
+  return (
+    <NavLink
+      to={to}
+      aria-label={label}
+      title={label}
+      className={({ isActive }) =>
+        `relative flex h-10 w-10 items-center justify-center rounded-full border transition ${
+          isActive ? 'border-volt text-volt' : 'border-line text-soft hover:text-paper'
+        }`
+      }
+    >
+      <Icon className="h-4.5 w-4.5" strokeWidth={1.75} />
+      {badge > 0 && (
+        <span className="absolute -top-1 -right-1 flex h-4.5 min-w-4.5 items-center justify-center rounded-full bg-volt px-1 text-[10px] font-semibold text-ink tabular-nums">
+          {formatBadge(badge)}
+        </span>
+      )}
     </NavLink>
   )
 }
@@ -59,6 +91,9 @@ function MobileNavItem({ label, icon: Icon, to }) {
 export default function AppLayout({ children }) {
   const { signOut } = useAuth()
   const { name } = useProfile()
+  const { unreadCount } = useNotifications()
+
+  const getBadge = (to) => (to === '/notifications' ? unreadCount : 0)
 
   return (
     <div className="min-h-dvh bg-ink lg:grid lg:grid-cols-[248px_1fr]">
@@ -67,9 +102,9 @@ export default function AppLayout({ children }) {
           <Logo size={30} />
         </div>
 
-        <nav className="space-y-1">
+        <nav className="-mx-1 min-h-0 space-y-1 overflow-y-auto px-1">
           {NAV_ITEMS.map((item) => (
-            <SidebarItem key={item.label} {...item} />
+            <SidebarItem key={item.label} {...item} badge={getBadge(item.to)} />
           ))}
         </nav>
 
@@ -92,7 +127,17 @@ export default function AppLayout({ children }) {
         </div>
       </aside>
 
-      <div className="min-w-0 pb-24 lg:pb-0">{children}</div>
+      <div className="min-w-0 pb-24 lg:pb-0">
+        <header className="flex items-center justify-between border-b border-white/6 px-4 py-3 sm:px-8 lg:hidden">
+          <Logo size={28} />
+          <div className="flex items-center gap-2">
+            {MOBILE_TOP_ITEMS.map((item) => (
+              <MobileTopItem key={item.label} {...item} badge={getBadge(item.to)} />
+            ))}
+          </div>
+        </header>
+        {children}
+      </div>
 
       <nav className="fixed inset-x-0 bottom-0 z-20 flex justify-around border-t border-white/8 bg-charcoal/95 px-2 pt-2 pb-[max(0.5rem,env(safe-area-inset-bottom))] backdrop-blur lg:hidden">
         {NAV_ITEMS.filter((item) => item.mobile).map((item) => (
