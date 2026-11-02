@@ -4,11 +4,14 @@ import Login from '../pages/auth/Login.jsx'
 import ResetPassword from '../pages/auth/ResetPassword.jsx'
 import Dashboard from '../pages/Dashboard.jsx'
 import ExerciseDetail from '../pages/ExerciseDetail.jsx'
+import Help from '../pages/Help.jsx'
 import History from '../pages/History.jsx'
+import Notifications from '../pages/Notifications.jsx'
 import Nutrition from '../pages/Nutrition.jsx'
 import Onboarding from '../pages/Onboarding.jsx'
 import Profile from '../pages/Profile.jsx'
 import Progress from '../pages/Progress.jsx'
+import Settings from '../pages/Settings.jsx'
 import Splash from '../pages/Splash.jsx'
 import Workouts from '../pages/Workouts.jsx'
 import WorkoutSession from '../pages/WorkoutSession.jsx'
@@ -23,6 +26,9 @@ const PROTECTED_PAGES = [
   { path: '/progress/history', page: History },
   { path: '/progress/history/:workoutId', page: WorkoutSummary },
   { path: '/nutrition', page: Nutrition },
+  { path: '/notifications', page: Notifications },
+  { path: '/settings', page: Settings },
+  { path: '/help', page: Help },
 ]
 
 export default function AppRoutes() {
