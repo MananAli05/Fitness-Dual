@@ -34,3 +34,5 @@ export const MEAL_PLANS = {
     ],
   },
 }
+
+export const DEFAULT_WATER_TARGET = 8

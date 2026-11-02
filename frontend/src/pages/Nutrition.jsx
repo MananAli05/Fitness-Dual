@@ -6,14 +6,13 @@ import FoodLogForm from '../components/nutrition/FoodLogForm.jsx'
 import FoodLogList from '../components/nutrition/FoodLogList.jsx'
 import MealPlanCard from '../components/nutrition/MealPlanCard.jsx'
 import WaterTracker from '../components/nutrition/WaterTracker.jsx'
+import { DEFAULT_WATER_TARGET } from '../constants/nutrition.js'
 import { useAuth } from '../context/AuthContext.jsx'
 import { useProfile } from '../context/ProfileContext.jsx'
 import AppLayout from '../layouts/AppLayout.jsx'
 import { addFoodLog, deleteFoodLog, fetchFoodLogs, fetchWaterLogs, saveWaterGlasses } from '../lib/nutrition.js'
 import { formatDay, toDateKey } from '../utils/dates.js'
 import { sumMacros } from '../utils/nutrition.js'
-
-const DEFAULT_WATER_TARGET = 8
 
 export default function Nutrition() {
   const { user } = useAuth()
