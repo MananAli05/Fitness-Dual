@@ -1,10 +1,16 @@
 import { findExercise } from '../constants/exercises.js'
-import { dashboardByGoal } from '../data/mockDashboard.js'
+import { WORKOUT_PLANS } from '../constants/plans.js'
 import { daysAgo, startOfWeek, toDateKey, weeksBetween } from './dates.js'
 
 export function getTodaysPlan(goal) {
-  const { workout } = dashboardByGoal[goal] ?? dashboardByGoal.bulk
-  return { ...workout, exerciseIds: workout.exercises.map((exercise) => exercise.id) }
+  const plan = WORKOUT_PLANS[goal] ?? WORKOUT_PLANS.bulk
+  const exercises = plan.exerciseIds.map(findExercise).map((exercise) => ({
+    id: exercise.id,
+    name: exercise.name,
+    detail: formatTarget(exercise, goal),
+  }))
+
+  return { ...plan, exercises }
 }
 
 export function createDefaultSets(exerciseId, goal) {
