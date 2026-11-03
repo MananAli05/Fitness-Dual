@@ -1,5 +1,4 @@
 import { createContext, useContext, useEffect, useState } from 'react'
-import { applyPendingGoal } from '../lib/pendingGoal.js'
 import { supabase } from '../lib/supabase.js'
 
 const AuthContext = createContext(null)
@@ -14,12 +13,8 @@ export function AuthProvider({ children }) {
       setLoading(false)
     })
 
-    const { data } = supabase.auth.onAuthStateChange((event, newSession) => {
+    const { data } = supabase.auth.onAuthStateChange((_event, newSession) => {
       setSession(newSession)
-
-      if (event === 'SIGNED_IN' && newSession) {
-        setTimeout(() => applyPendingGoal(newSession.user.id), 0)
-      }
     })
 
     return () => data.subscription.unsubscribe()
