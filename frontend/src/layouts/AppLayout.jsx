@@ -88,7 +88,7 @@ function MobileNavItem({ label, icon: Icon, to }) {
   )
 }
 
-export default function AppLayout({ children }) {
+export default function AppLayout({ children, mobileBar }) {
   const { signOut } = useAuth()
   const { name } = useProfile()
   const { unreadCount } = useNotifications()
@@ -127,7 +127,7 @@ export default function AppLayout({ children }) {
         </div>
       </aside>
 
-      <div className="min-w-0 pb-24 lg:pb-0">
+      <div className={`min-w-0 lg:pb-0 ${mobileBar ? 'pb-44' : 'pb-24'}`}>
         <header className="flex items-center justify-between border-b border-white/6 px-4 py-3 sm:px-8 lg:hidden">
           <Logo size={28} />
           <div className="flex items-center gap-2">
@@ -139,11 +139,14 @@ export default function AppLayout({ children }) {
         {children}
       </div>
 
-      <nav className="fixed inset-x-0 bottom-0 z-20 flex justify-around border-t border-white/8 bg-charcoal/95 px-2 pt-2 pb-[max(0.5rem,env(safe-area-inset-bottom))] backdrop-blur lg:hidden">
-        {NAV_ITEMS.filter((item) => item.mobile).map((item) => (
-          <MobileNavItem key={item.label} {...item} />
-        ))}
-      </nav>
+      <div className="fixed inset-x-0 bottom-0 z-20 lg:hidden">
+        {mobileBar}
+        <nav className="flex justify-around border-t border-white/8 bg-charcoal/95 px-2 pt-2 pb-[max(0.5rem,env(safe-area-inset-bottom))] backdrop-blur">
+          {NAV_ITEMS.filter((item) => item.mobile).map((item) => (
+            <MobileNavItem key={item.label} {...item} />
+          ))}
+        </nav>
+      </div>
     </div>
   )
 }

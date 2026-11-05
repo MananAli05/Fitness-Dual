@@ -3,10 +3,11 @@
 @theme {
   --font-sans: "Inter Tight", ui-sans-serif, system-ui, sans-serif;
 
-  --color-ink: #0a0a0a;
-  --color-charcoal: #1e2026;
-  --color-volt: #ffe500;
-  --color-volt-hi: #fff04d;
+  --color-ink: #0b0d0f;
+  --color-charcoal: #16191d;
+  --color-volt: #c6ff3d;
+  --color-volt-hi: #d6ff6e;
+  --color-teal: #2ee6d6;
   --color-line: rgb(255 255 255 / 0.12);
   --color-mute: #8a8a8a;
   --color-soft: #bdbdbd;

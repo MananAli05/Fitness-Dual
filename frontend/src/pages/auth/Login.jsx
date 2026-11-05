@@ -217,14 +217,14 @@ export default function Login() {
               type="checkbox"
               checked={form.remember}
               onChange={handleChange('remember')}
-              className="h-4 w-4 rounded accent-volt"
+              className="h-4 w-4 rounded accent-teal"
             />
             Remember me
           </label>
           <button
             type="button"
             onClick={handleForgotPassword}
-            className="font-medium text-volt underline-offset-4 hover:underline"
+            className="font-medium text-teal underline-offset-4 hover:underline"
           >
             Forgot password?
           </button>

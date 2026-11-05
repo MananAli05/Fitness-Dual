@@ -12,7 +12,7 @@ function SetInput({ label, value, onChange, step = 1 }) {
       value={value}
       onChange={(e) => onChange(e.target.value)}
       aria-label={label}
-      className="h-10 w-full min-w-0 [appearance:textfield] rounded-lg border border-line bg-ink px-3 text-center text-sm text-paper tabular-nums outline-none focus:border-volt [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
+      className="h-10 w-full min-w-0 [appearance:textfield] rounded-lg border border-line bg-ink px-3 text-center text-base text-paper tabular-nums outline-none focus:border-teal [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
     />
   )
 }
@@ -89,7 +89,7 @@ export default function SessionExercise({ entry, position, onUpdateSet, onAddSet
       </div>
 
       <div className="mt-4 flex gap-4 text-sm">
-        <button type="button" onClick={onAddSet} className="font-medium text-volt underline-offset-4 hover:underline">
+        <button type="button" onClick={onAddSet} className="font-medium text-teal underline-offset-4 hover:underline">
           Add set
         </button>
         {entry.sets.length > 1 && (

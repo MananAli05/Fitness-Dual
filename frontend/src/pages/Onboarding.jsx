@@ -140,7 +140,7 @@ export default function Onboarding() {
 
                   <div className="mt-10">
                     {numberField ? (
-                      <label className="flex items-baseline gap-3 border-b border-line pb-3 focus-within:border-volt">
+                      <label className="flex items-baseline gap-3 border-b border-line pb-3 focus-within:border-teal">
                         <input
                           autoFocus
                           type="number"

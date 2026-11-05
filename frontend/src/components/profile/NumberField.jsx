@@ -11,7 +11,7 @@ export default function NumberField({ id, value, onChange, error }) {
 
       <div
         className={`flex items-center gap-2 rounded-xl border px-4 transition ${
-          error ? 'border-danger/70' : 'border-line hover:border-white/25 focus-within:border-volt'
+          error ? 'border-danger/70' : 'border-line hover:border-white/25 focus-within:border-teal'
         }`}
       >
         <input
@@ -23,7 +23,7 @@ export default function NumberField({ id, value, onChange, error }) {
           step={field.step}
           value={value}
           onChange={(e) => onChange(e.target.value)}
-          className="h-12 w-full [appearance:textfield] bg-transparent text-[15px] text-paper tabular-nums outline-none [&::-webkit-inner-spin-button]:appearance-none"
+          className="h-12 w-full [appearance:textfield] bg-transparent text-base text-paper tabular-nums outline-none [&::-webkit-inner-spin-button]:appearance-none"
         />
         <span className="text-sm text-mute">{field.unit}</span>
       </div>

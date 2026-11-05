@@ -1,0 +1,497 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>PHAZE Color Preview</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+    <style>
+      :root,
+      [data-theme='lime'] {
+        --bg: #0b0d0f;
+        --surface: #16191d;
+        --accent: #c6ff3d;
+        --accent-hi: #d6ff6e;
+        --accent-ink: #0b0d0f;
+        --second: #2ee6d6;
+        --panel-ink: #0b0d0f;
+      }
+      [data-theme='orange'] {
+        --bg: #0e0e10;
+        --surface: #1a1a1f;
+        --accent: #ff5a1f;
+        --accent-hi: #ff7a47;
+        --accent-ink: #0e0e10;
+        --second: #ffb800;
+        --panel-ink: #0e0e10;
+      }
+      [data-theme='violet'] {
+        --bg: #0b0a12;
+        --surface: #17151f;
+        --accent: #8b5cf6;
+        --accent-hi: #a07bf8;
+        --accent-ink: #ffffff;
+        --second: #22d3ee;
+        --panel-ink: #ffffff;
+      }
+      [data-theme='yellow'] {
+        --bg: #0a0a0a;
+        --surface: #1e2026;
+        --accent: #ffe500;
+        --accent-hi: #fff04d;
+        --accent-ink: #0a0a0a;
+        --second: #ffe500;
+        --panel-ink: #0a0a0a;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: #f2f2f0;
+        font-family: 'Inter Tight', system-ui, sans-serif;
+        -webkit-font-smoothing: antialiased;
+        transition: background 0.3s;
+      }
+
+      .switcher {
+        position: fixed;
+        top: 16px;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 10;
+        display: flex;
+        gap: 6px;
+        padding: 6px;
+        border-radius: 999px;
+        background: rgb(0 0 0 / 0.75);
+        border: 1px solid rgb(255 255 255 / 0.12);
+        backdrop-filter: blur(10px);
+      }
+      .switcher button {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        border: 0;
+        border-radius: 999px;
+        padding: 8px 14px;
+        background: transparent;
+        color: #bdbdbd;
+        font: 500 13px 'Inter Tight', sans-serif;
+        cursor: pointer;
+        white-space: nowrap;
+      }
+      .switcher button.active {
+        background: #f2f2f0;
+        color: #0a0a0a;
+      }
+      .dot {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+      }
+
+      .page {
+        display: grid;
+        grid-template-columns: 1.15fr 1fr;
+        min-height: 100vh;
+      }
+
+      .brand {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        overflow: hidden;
+        background: var(--accent);
+        color: var(--panel-ink);
+        transition: background 0.3s, color 0.3s;
+      }
+      .brand-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 40px 40px 0;
+        font-size: 12px;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+      }
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-weight: 600;
+        letter-spacing: 0.18em;
+        font-size: 16px;
+      }
+      .headline {
+        padding: 0 40px;
+      }
+      .headline p {
+        margin: 0;
+        display: flex;
+        align-items: flex-start;
+        gap: 12px;
+        font-size: clamp(3rem, min(8.2vw, 13vh), 8.5rem);
+        line-height: 0.86;
+        font-weight: 600;
+        letter-spacing: -0.055em;
+      }
+      .headline .outline {
+        color: transparent;
+        -webkit-text-stroke: 1.5px var(--panel-ink);
+      }
+      .headline small {
+        margin-top: 0.6em;
+        font-size: 12px;
+        font-weight: 500;
+        letter-spacing: 0;
+        opacity: 0.45;
+      }
+      .facts {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 24px;
+        max-width: 560px;
+        margin-top: 5vh;
+      }
+      .facts div {
+        border-top: 1px solid currentColor;
+        border-color: color-mix(in srgb, var(--panel-ink) 20%, transparent);
+        padding-top: 12px;
+      }
+      .facts b {
+        display: block;
+        font-size: 24px;
+        letter-spacing: -0.02em;
+      }
+      .facts span {
+        font-size: 12px;
+        opacity: 0.55;
+      }
+      .ticker {
+        overflow: hidden;
+        border-top: 1px solid color-mix(in srgb, var(--panel-ink) 15%, transparent);
+        padding: 16px 0;
+        font-size: 12px;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        white-space: nowrap;
+      }
+      .ticker div {
+        display: inline-flex;
+        gap: 40px;
+        animation: marquee 28s linear infinite;
+      }
+      @keyframes marquee {
+        to {
+          transform: translateX(-50%);
+        }
+      }
+
+      .form-side {
+        display: flex;
+        flex-direction: column;
+        background: var(--surface);
+        padding: 40px;
+        transition: background 0.3s;
+      }
+      .form-top {
+        text-align: right;
+        font-size: 12px;
+        letter-spacing: 0.14em;
+        color: #8a8a8a;
+        text-transform: uppercase;
+      }
+      .form-wrap {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .form {
+        width: 100%;
+        max-width: 420px;
+      }
+      .form h1 {
+        margin: 0;
+        font-size: 42px;
+        line-height: 1;
+        font-weight: 600;
+        letter-spacing: -0.04em;
+      }
+      .form .sub {
+        margin: 12px 0 28px;
+        color: #bdbdbd;
+      }
+      .label {
+        display: block;
+        margin-bottom: 8px;
+        font-size: 11px;
+        font-weight: 500;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: #8a8a8a;
+      }
+      .field {
+        margin-bottom: 16px;
+      }
+      .input {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        height: 48px;
+        padding: 0 16px;
+        border: 1px solid rgb(255 255 255 / 0.12);
+        border-radius: 12px;
+        color: #8a8a8a;
+        font-size: 15px;
+      }
+      .input.focus {
+        border-color: var(--second);
+        color: #f2f2f0;
+      }
+      .input.focus svg {
+        color: var(--second);
+      }
+      .goals {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+        margin-bottom: 16px;
+      }
+      .goal {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 14px;
+        border: 1px solid rgb(255 255 255 / 0.12);
+        border-radius: 12px;
+        cursor: pointer;
+      }
+      .goal b {
+        display: block;
+        font-size: 14px;
+      }
+      .goal span {
+        display: block;
+        margin-top: 2px;
+        font-size: 11px;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: #8a8a8a;
+      }
+      .goal.active {
+        background: var(--accent);
+        border-color: var(--accent);
+        color: var(--accent-ink);
+      }
+      .goal.active span {
+        color: var(--accent-ink);
+        opacity: 0.6;
+      }
+      .row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin: 4px 0 16px;
+        font-size: 14px;
+      }
+      .check {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        color: #bdbdbd;
+      }
+      .box {
+        display: grid;
+        place-items: center;
+        width: 16px;
+        height: 16px;
+        border-radius: 4px;
+        background: var(--second);
+        color: var(--bg);
+        font-size: 11px;
+        font-weight: 700;
+      }
+      .link {
+        font-weight: 500;
+        color: var(--second);
+      }
+      .notice {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 16px;
+        padding: 10px 14px;
+        border-radius: 12px;
+        border: 1px solid color-mix(in srgb, var(--second) 40%, transparent);
+        color: var(--second);
+        font-size: 14px;
+      }
+      .button {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        height: 52px;
+        padding: 0 6px 0 24px;
+        border-radius: 999px;
+        background: var(--accent);
+        color: var(--accent-ink);
+        font-weight: 600;
+        cursor: pointer;
+        transition: background 0.2s;
+      }
+      .button:hover {
+        background: var(--accent-hi);
+      }
+      .button i {
+        display: grid;
+        place-items: center;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: var(--bg);
+        color: var(--accent);
+        font-style: normal;
+      }
+      .footer {
+        font-size: 12px;
+        color: #8a8a8a;
+      }
+
+      @media (max-width: 900px) {
+        .page {
+          grid-template-columns: 1fr;
+        }
+        .brand {
+          display: none;
+        }
+        .form-side {
+          padding: 80px 16px 24px;
+        }
+        .switcher {
+          width: calc(100% - 32px);
+          overflow-x: auto;
+          justify-content: flex-start;
+        }
+      }
+    </style>
+  </head>
+  <body data-theme="lime">
+    <div class="switcher" role="tablist" aria-label="Color theme">
+      <button class="active" data-pick="lime"><span class="dot" style="background:#c6ff3d"></span>1. Electric Lime</button>
+      <button data-pick="orange"><span class="dot" style="background:#ff5a1f"></span>2. Blaze Orange</button>
+      <button data-pick="violet"><span class="dot" style="background:#8b5cf6"></span>3. Ultra Violet</button>
+      <button data-pick="yellow"><span class="dot" style="background:#ffe500"></span>Current Yellow</button>
+    </div>
+
+    <main class="page">
+      <aside class="brand">
+        <div class="brand-top">
+          <div class="logo">
+            <svg width="34" height="34" viewBox="0 0 100 100" aria-hidden="true">
+              <defs>
+                <linearGradient id="g" x1="0.15" y1="0.1" x2="0.85" y2="0.9">
+                  <stop offset="0.1" stop-color="#b6f22c" />
+                  <stop offset="0.9" stop-color="#14e1ff" />
+                </linearGradient>
+              </defs>
+              <rect width="100" height="100" rx="24" fill="#111214" />
+              <path d="M26 17H66C80 17 89 27 86 40C83 54 72 62 58 62H33L37 48H58C64 48 69 45 70 40C71 35 68 31 63 31H22Z" fill="url(#g)" />
+              <path d="M31 48H48L38 84H21Z" fill="url(#g)" />
+            </svg>
+            PHΛZE
+          </div>
+          <span style="opacity:0.5">Est. 2026</span>
+        </div>
+
+        <div class="headline">
+          <p>BULK.<small>(01)</small></p>
+          <p><span class="outline">CUT.</span><small>(02)</small></p>
+          <p>EVOLVE.<small>(03)</small></p>
+          <div class="facts">
+            <div><b>02</b><span>Training phases</span></div>
+            <div><b>24/7</b><span>AI form coach</span></div>
+            <div><b>100%</b><span>Personalised</span></div>
+          </div>
+        </div>
+
+        <div class="ticker">
+          <div>
+            <span>Personalised plans ✳</span><span>Real-time form feedback ✳</span><span>Smart nutrition ✳</span><span>Auto rep counting ✳</span><span>Progress analytics ✳</span>
+            <span>Personalised plans ✳</span><span>Real-time form feedback ✳</span><span>Smart nutrition ✳</span><span>Auto rep counting ✳</span><span>Progress analytics ✳</span>
+          </div>
+        </div>
+      </aside>
+
+      <section class="form-side">
+        <div class="form-top">AI Fitness Coach</div>
+        <div class="form-wrap">
+          <div class="form">
+            <h1>Create account</h1>
+            <p class="sub">One last step. Pick your phase and username.</p>
+
+            <div class="field">
+              <span class="label">Email</span>
+              <div class="input">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><rect x="3" y="5" width="18" height="14" rx="2" /><path d="m3 7 9 6 9-6" /></svg>
+                amanan26435@gmail.com
+              </div>
+            </div>
+
+            <div class="field">
+              <span class="label">Password</span>
+              <div class="input">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><rect x="4" y="11" width="16" height="10" rx="2" /><path d="M8 11V7a4 4 0 0 1 8 0v4" /></svg>
+                ••••••••••
+              </div>
+            </div>
+
+            <span class="label">Your phase</span>
+            <div class="goals">
+              <div class="goal active" data-goal><div><b>Build muscle</b><span>Phase 01</span></div></div>
+              <div class="goal" data-goal><div><b>Lose fat</b><span>Phase 02</span></div></div>
+            </div>
+
+            <div class="field">
+              <span class="label">Username</span>
+              <div class="input focus">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><circle cx="12" cy="12" r="4" /><path d="M16 8v5a3 3 0 0 0 6 0v-1a10 10 0 1 0-4 8" /></svg>
+                Manan
+              </div>
+            </div>
+
+            <div class="row">
+              <span class="check"><span class="box">✓</span>Remember me</span>
+              <span class="link">Forgot password?</span>
+            </div>
+
+            <div class="notice">New here? Choose a username to create your account.</div>
+
+            <div class="button">Create account <i>↗</i></div>
+          </div>
+        </div>
+        <div class="footer">© 2026 PHAZE. All rights reserved.</div>
+      </section>
+    </main>
+
+    <script>
+      document.querySelectorAll('[data-pick]').forEach((button) => {
+        button.addEventListener('click', () => {
+          document.body.dataset.theme = button.dataset.pick
+          document.querySelectorAll('[data-pick]').forEach((b) => b.classList.toggle('active', b === button))
+        })
+      })
+
+      document.querySelectorAll('[data-goal]').forEach((goal) => {
+        goal.addEventListener('click', () => {
+          document.querySelectorAll('[data-goal]').forEach((g) => g.classList.toggle('active', g === goal))
+        })
+      })
+    </script>
+  </body>
+</html>

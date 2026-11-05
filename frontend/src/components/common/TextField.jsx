@@ -14,16 +14,16 @@ export default function TextField({ id, label, icon: Icon, error, hint, type = '
 
       <div
         className={`group flex items-center gap-3 rounded-xl border px-4 transition ${
-          error ? 'border-danger/70' : 'border-line hover:border-white/25 focus-within:border-volt'
+          error ? 'border-danger/70' : 'border-line hover:border-white/25 focus-within:border-teal'
         }`}
       >
         {Icon && (
-          <Icon className="h-4 w-4 shrink-0 text-mute transition group-focus-within:text-volt" strokeWidth={1.75} />
+          <Icon className="h-4 w-4 shrink-0 text-mute transition group-focus-within:text-teal" strokeWidth={1.75} />
         )}
         <input
           id={id}
           type={isPassword && showPassword ? 'text' : type}
-          className="h-12 w-full bg-transparent text-[15px] text-paper outline-none placeholder:text-white/30"
+          className="h-12 w-full bg-transparent text-base text-paper outline-none placeholder:text-white/30"
           aria-invalid={Boolean(error)}
           {...inputProps}
         />

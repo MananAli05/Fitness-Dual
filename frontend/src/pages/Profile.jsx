@@ -83,19 +83,19 @@ export default function Profile() {
             <p className="mt-1.5 text-sm text-mute">{user?.email}</p>
           </div>
 
-          <div className="ml-auto flex items-center gap-3">
+          <div className="flex w-full items-center gap-3 sm:ml-auto sm:w-auto">
             <button
               type="button"
               disabled={!hasChanges || saving}
               onClick={handleReset}
-              className="h-12 rounded-full border border-line px-6 text-sm font-medium transition hover:border-paper disabled:opacity-40"
+              className="h-12 flex-1 rounded-full border border-line px-6 text-sm font-medium transition hover:border-paper disabled:opacity-40 sm:flex-none"
             >
               Reset
             </button>
             <button
               type="submit"
               disabled={!hasChanges || saving}
-              className="h-12 rounded-full bg-volt px-8 text-sm font-semibold text-ink transition hover:bg-volt-hi disabled:opacity-40"
+              className="h-12 flex-1 rounded-full bg-volt px-8 text-sm font-semibold text-ink transition hover:bg-volt-hi disabled:opacity-40 sm:flex-none"
             >
               {saving ? 'Saving…' : 'Save changes'}
             </button>

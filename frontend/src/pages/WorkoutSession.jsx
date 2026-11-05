@@ -6,6 +6,7 @@ import PillButton from '../components/common/PillButton.jsx'
 import TextField from '../components/common/TextField.jsx'
 import ExercisePicker from '../components/workouts/ExercisePicker.jsx'
 import SessionExercise from '../components/workouts/SessionExercise.jsx'
+import SessionMobileBar from '../components/workouts/SessionMobileBar.jsx'
 import SessionPanel from '../components/workouts/SessionPanel.jsx'
 import { useProfile } from '../context/ProfileContext.jsx'
 import { useWorkout } from '../context/WorkoutContext.jsx'
@@ -66,8 +67,12 @@ export default function WorkoutSession() {
     }
   }
 
+  const mobileBar = activeWorkout && (
+    <SessionMobileBar workout={activeWorkout} saving={saving} onFinish={handleFinish} />
+  )
+
   return (
-    <AppLayout>
+    <AppLayout mobileBar={mobileBar}>
       <div className="mx-auto max-w-[1400px] px-4 py-6 sm:px-8 lg:py-8">
         <PageHeader eyebrow="Manual workout" title={activeWorkout ? activeWorkout.title || 'Workout' : 'Workout'} />
 
