@@ -59,3 +59,5 @@ Run the files in `supabase/migrations` in order, in the Supabase SQL Editor.
 | `003_profile_onboarding.sql` | Activity level and onboarding flag |
 | `004_workouts_nutrition_water.sql` | Workouts, workout sets, food logs and water logs |
 | `005_phase_notifications_settings.sql` | Phase start date, notifications and user settings |
+| `006_avatars.sql` | Avatars storage bucket with a 2 MB limit |
+| `007_avatar_select_policy.sql` | Lets users replace their own avatar |
