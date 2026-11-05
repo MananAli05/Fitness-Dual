@@ -1,8 +1,8 @@
 import { Dumbbell, Flame } from 'lucide-react'
 
 const GOALS = [
-  { id: 'bulk', label: 'Build muscle', hint: '01 — Bulk', icon: Dumbbell },
-  { id: 'cut', label: 'Lose fat', hint: '02 — Cut', icon: Flame },
+  { id: 'bulk', label: 'Build muscle', hint: 'Phase 01', icon: Dumbbell },
+  { id: 'cut', label: 'Lose fat', hint: 'Phase 02', icon: Flame },
 ]
 
 export default function GoalPicker({ value, onChange }) {

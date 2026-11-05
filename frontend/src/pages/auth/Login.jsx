@@ -2,6 +2,7 @@ import { AnimatePresence, motion } from 'framer-motion'
 import { AtSign, Lock, Mail } from 'lucide-react'
 import { useRef, useState } from 'react'
 import { Navigate } from 'react-router-dom'
+import ConfirmEmailModal from '../../components/auth/ConfirmEmailModal.jsx'
 import GoalPicker from '../../components/auth/GoalPicker.jsx'
 import Alert from '../../components/common/Alert.jsx'
 import PrimaryButton from '../../components/common/PrimaryButton.jsx'
@@ -21,6 +22,7 @@ export default function Login() {
   const [errors, setErrors] = useState({})
   const [notice, setNotice] = useState(null)
   const [loading, setLoading] = useState(false)
+  const [confirmEmail, setConfirmEmail] = useState(null)
   const usernameRef = useRef(null)
 
   if (session) return <Navigate to="/home" replace />
@@ -52,7 +54,7 @@ export default function Login() {
       newErrors.password = `Password must be at least ${MIN_PASSWORD_LENGTH} characters`
     }
     if (isSignup && !isValidUsername(form.username)) {
-      newErrors.username = 'Use 3–20 letters (A–Z only)'
+      newErrors.username = 'Use 3 to 20 letters (A to Z only)'
     }
 
     return newErrors
@@ -90,7 +92,7 @@ export default function Login() {
       return
     }
     if (!isAvailable) {
-      setErrors({ ...errors, username: 'This username is taken — try another' })
+      setErrors({ ...errors, username: 'This username is taken. Try another one.' })
       return
     }
 
@@ -107,10 +109,7 @@ export default function Login() {
       showError(error)
     } else if (!data.session) {
       setIsSignup(false)
-      setNotice({
-        type: 'success',
-        text: `Account created! Check ${form.email} for a confirmation link, then log in.`,
-      })
+      setConfirmEmail(form.email)
     }
   }
 
@@ -155,7 +154,7 @@ export default function Login() {
   return (
     <AuthLayout
       title={isSignup ? 'Create account' : 'Welcome'}
-      subtitle={isSignup ? 'One last step — pick your phase and username.' : 'Log in, or enter a new email to create your account.'}
+      subtitle={isSignup ? 'One last step. Pick your phase and username.' : 'Log in, or enter a new email to create your account.'}
     >
       <form onSubmit={handleSubmit} className="space-y-4" noValidate>
         <TextField
@@ -206,7 +205,7 @@ export default function Login() {
                 value={form.username}
                 onChange={handleChange('username')}
                 error={errors.username}
-                hint="Letters only (A–Z), 3–20 characters"
+                hint="Letters only (A to Z), 3 to 20 characters"
               />
             </motion.div>
           )}
@@ -235,6 +234,8 @@ export default function Login() {
 
         <PrimaryButton loading={loading}>{isSignup ? 'Create account' : 'Continue'}</PrimaryButton>
       </form>
+
+      <ConfirmEmailModal email={confirmEmail} onClose={() => setConfirmEmail(null)} />
     </AuthLayout>
   )
 }

@@ -111,7 +111,7 @@ export default function Splash() {
                 key={word}
                 className={`transition-colors duration-300 ${index === step ? 'text-volt' : 'text-mute/50'}`}
               >
-                0{index + 1} — {word}
+                0{index + 1} {word}
               </li>
             ))}
           </ol>

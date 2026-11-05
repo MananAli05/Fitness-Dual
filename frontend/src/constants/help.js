@@ -5,7 +5,7 @@ export const HELP_SECTIONS = [
       {
         question: 'How are my calorie and protein targets calculated?',
         answer:
-          'We estimate your maintenance calories from your age, height, weight, sex and daily activity. Bulk adds 300 kcal and Cut removes 500 kcal. Protein is 1.8 g per kg of body weight on Bulk and 2.2 g per kg on Cut.',
+          'We estimate your maintenance calories from your age, height, weight, gender and daily activity. Bulk adds 300 kcal and Cut removes 500 kcal. Protein is 1.8 g per kg of body weight on Bulk and 2.2 g per kg on Cut.',
       },
       {
         question: 'How do I switch between Bulk and Cut?',

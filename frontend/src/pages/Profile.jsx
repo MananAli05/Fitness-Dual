@@ -114,13 +114,13 @@ export default function Profile() {
           <Card title="Body" delay={0.06}>
             <div className="space-y-5">
               <div>
-                <p className="mb-2 text-[11px] font-medium tracking-[0.14em] text-mute uppercase">Sex</p>
+                <p className="mb-2 text-[11px] font-medium tracking-[0.14em] text-mute uppercase">Gender</p>
                 <ChoiceGrid
                   options={GENDERS}
                   value={form.gender}
                   onChange={handleChange('gender')}
                   columns={3}
-                  label="Sex"
+                  label="Gender"
                 />
               </div>
               <div className="grid grid-cols-3 gap-3">

@@ -17,8 +17,8 @@ export const FITNESS_LEVELS = [
 ]
 
 export const GOALS = [
-  { value: 'bulk', label: 'Build muscle', hint: '01 — Bulk phase' },
-  { value: 'cut', label: 'Lose fat', hint: '02 — Cut phase' },
+  { value: 'bulk', label: 'Build muscle', hint: 'Phase 01 · Bulk' },
+  { value: 'cut', label: 'Lose fat', hint: 'Phase 02 · Cut' },
 ]
 
 export const NUMBER_FIELDS = {

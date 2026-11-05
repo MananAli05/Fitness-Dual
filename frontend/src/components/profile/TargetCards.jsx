@@ -18,7 +18,7 @@ export default function TargetCards({ targets }) {
       <div className="col-span-2 rounded-3xl bg-volt p-5 text-ink sm:col-span-1">
         <p className="text-[11px] font-medium tracking-[0.14em] uppercase">Daily calories</p>
         <p className="mt-3 text-4xl font-semibold tracking-[-0.04em] tabular-nums">
-          {targets ? targets.calories.toLocaleString() : '—'}
+          {targets ? targets.calories.toLocaleString() : '-'}
         </p>
         <p className="text-xs">kcal</p>
       </div>
@@ -26,7 +26,7 @@ export default function TargetCards({ targets }) {
       {cards.map((card) => (
         <div key={card.label} className="rounded-3xl border border-white/6 bg-charcoal p-5">
           <p className="text-[11px] tracking-[0.14em] text-mute uppercase">{card.label}</p>
-          <p className="mt-3 text-4xl font-semibold tracking-[-0.04em] tabular-nums">{card.value ?? '—'}</p>
+          <p className="mt-3 text-4xl font-semibold tracking-[-0.04em] tabular-nums">{card.value ?? '-'}</p>
           <p className="text-xs text-mute">{card.unit}</p>
         </div>
       ))}

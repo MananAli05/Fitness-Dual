@@ -22,7 +22,7 @@ export default function PhaseCard({ phase, buttonLabel, onStartWorkout }) {
 
       <div className="relative">
         <p className="text-xs font-medium tracking-[0.14em] uppercase">
-          {phase.index} — {phase.name} phase
+          Phase {phase.index} · {phase.name}
         </p>
         <h2 className="mt-4 max-w-md text-[clamp(2.4rem,5vw,4.2rem)] leading-[0.92] font-semibold tracking-[-0.05em]">
           {phase.headline}

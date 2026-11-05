@@ -3,11 +3,11 @@ export const EXERCISE_CATEGORIES = ['All', 'Legs', 'Chest', 'Back', 'Shoulders',
 export const GOAL_TRAINING = {
   bulk: {
     label: 'Bulk phase',
-    summary: 'Heavier weight, 8–12 reps, about 90 seconds rest between sets.',
+    summary: 'Heavier weight, 8 to 12 reps, about 90 seconds rest between sets.',
   },
   cut: {
     label: 'Cut phase',
-    summary: 'Lighter weight, 12–15 reps, 30–45 seconds rest to keep your heart rate up.',
+    summary: 'Lighter weight, 12 to 15 reps, 30 to 45 seconds rest to keep your heart rate up.',
   },
 }
 

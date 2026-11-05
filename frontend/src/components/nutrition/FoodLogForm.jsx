@@ -19,7 +19,7 @@ function validate(form) {
 
     const number = Number(value)
     if (value === '' || Number.isNaN(number) || number < 0 || number > config.max) {
-      errors[field] = `0–${config.max} ${config.unit}`
+      errors[field] = `0 to ${config.max} ${config.unit}`
     }
   })
 

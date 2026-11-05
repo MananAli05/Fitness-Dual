@@ -41,7 +41,7 @@ export default function PlanSummary({ targets, answers }) {
       </div>
 
       <p className="mt-4 text-xs text-mute">
-        BMI {targets.bmi}. These are estimates — adjust with your coach or doctor if needed.
+        BMI {targets.bmi}. These are estimates. Adjust them with your coach or doctor if needed.
       </p>
     </div>
   )

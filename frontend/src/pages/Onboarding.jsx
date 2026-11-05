@@ -13,10 +13,10 @@ import { calculateTargets } from '../utils/targets.js'
 import { getNumberError } from '../utils/validation.js'
 
 const STEPS = [
-  { key: 'gender', question: 'What’s your sex?', subtitle: 'Used only to calculate your calorie needs.', options: GENDERS, columns: 3 },
+  { key: 'gender', question: 'What’s your gender?', subtitle: 'Used only to calculate your calorie needs.', options: GENDERS, columns: 3 },
   { key: 'age', question: 'How old are you?', subtitle: 'Your metabolism changes with age.' },
   { key: 'height_cm', question: 'How tall are you?', subtitle: 'In centimetres.' },
-  { key: 'weight_kg', question: 'What do you weigh?', subtitle: 'In kilograms — you can update it any time.' },
+  { key: 'weight_kg', question: 'What’s your weight?', subtitle: 'In kilograms. You can update it any time.' },
   { key: 'activity_level', question: 'How active is your day?', subtitle: 'Outside of your workouts.', options: ACTIVITY_LEVELS },
   { key: 'fitness_level', question: 'Your training experience?', subtitle: 'So we pick the right exercises and volume.', options: FITNESS_LEVELS },
   { key: 'goal', question: 'Pick your phase.', subtitle: 'You can switch phases later.', options: GOALS, columns: 2 },
