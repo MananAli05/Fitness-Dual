@@ -1,5 +1,6 @@
 import { LogOut } from 'lucide-react'
 import { NavLink } from 'react-router-dom'
+import Avatar from '../components/common/Avatar.jsx'
 import Logo from '../components/common/Logo.jsx'
 import { MOBILE_TOP_ITEMS, NAV_ITEMS } from '../constants/navigation.js'
 import { useAuth } from '../context/AuthContext.jsx'
@@ -90,7 +91,7 @@ function MobileNavItem({ label, icon: Icon, to }) {
 
 export default function AppLayout({ children, mobileBar }) {
   const { signOut } = useAuth()
-  const { name } = useProfile()
+  const { profile, name } = useProfile()
   const { unreadCount } = useNotifications()
 
   const getBadge = (to) => (to === '/notifications' ? unreadCount : 0)
@@ -109,9 +110,7 @@ export default function AppLayout({ children, mobileBar }) {
         </nav>
 
         <div className="mt-auto flex items-center gap-3 rounded-2xl border border-white/6 bg-charcoal p-3">
-          <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-volt text-sm font-bold text-ink uppercase">
-            {name[0]}
-          </span>
+          <Avatar name={name} url={profile?.avatar_url} />
           <div className="min-w-0 flex-1">
             <p className="truncate text-sm font-semibold capitalize">{name}</p>
             <p className="text-xs text-mute">Free plan</p>

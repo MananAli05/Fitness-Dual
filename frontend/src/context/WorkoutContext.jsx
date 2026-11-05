@@ -42,7 +42,7 @@ function buildSetRows(exercises) {
 
 export function WorkoutProvider({ children }) {
   const { user } = useAuth()
-  const { goal } = useProfile()
+  const { goal, level } = useProfile()
   const [draft, setDraft] = useState(loadDraft)
 
   useEffect(() => {
@@ -58,7 +58,7 @@ export function WorkoutProvider({ children }) {
   const createEntry = (exerciseId) => ({
     key: crypto.randomUUID(),
     exerciseId,
-    sets: createDefaultSets(exerciseId, goal),
+    sets: createDefaultSets(exerciseId, goal, level),
   })
 
   const updateExercises = (update) => {
@@ -96,7 +96,7 @@ export function WorkoutProvider({ children }) {
 
   const addSet = (key) => {
     updateEntry(key, (entry) => {
-      const lastSet = entry.sets[entry.sets.length - 1] ?? createDefaultSets(entry.exerciseId, goal)[0]
+      const lastSet = entry.sets[entry.sets.length - 1] ?? createDefaultSets(entry.exerciseId, goal, level)[0]
       return { ...entry, sets: [...entry.sets, { ...lastSet, done: false }] }
     })
   }

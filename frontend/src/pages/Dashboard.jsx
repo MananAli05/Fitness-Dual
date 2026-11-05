@@ -33,7 +33,7 @@ function getGreeting() {
 export default function Dashboard() {
   const navigate = useNavigate()
   const { user } = useAuth()
-  const { profile, name, goal, targets } = useProfile()
+  const { profile, name, goal, level, targets } = useProfile()
   const { activeWorkout, startWorkout } = useWorkout()
   const { syncNotifications } = useNotifications()
   const [today] = useState(() => toDateKey())
@@ -44,7 +44,7 @@ export default function Dashboard() {
   const calorieTarget = targets?.calories
   const waterTarget = targets?.water ?? DEFAULT_WATER_TARGET
   const phase = getPhaseProgress(goal, phaseStartedAt)
-  const plan = getTodaysPlan(goal)
+  const plan = getTodaysPlan(goal, level)
 
   useEffect(() => {
     let cancelled = false
@@ -80,12 +80,12 @@ export default function Dashboard() {
         today,
         hour: new Date().getHours(),
         phase: getPhaseProgress(goal, phaseStartedAt),
-        plan: getTodaysPlan(goal),
+        plan: getTodaysPlan(goal, level),
         calorieTarget,
         waterTarget,
       }),
     )
-  }, [data, today, goal, phaseStartedAt, calorieTarget, waterTarget, syncNotifications])
+  }, [data, today, goal, level, phaseStartedAt, calorieTarget, waterTarget, syncNotifications])
 
   const startTodaysWorkout = () => {
     if (!activeWorkout) {

@@ -3,6 +3,7 @@ import Alert from '../components/common/Alert.jsx'
 import Card from '../components/common/Card.jsx'
 import ChoiceGrid from '../components/common/ChoiceGrid.jsx'
 import NumberField from '../components/profile/NumberField.jsx'
+import AvatarUpload from '../components/profile/AvatarUpload.jsx'
 import TargetCards from '../components/profile/TargetCards.jsx'
 import { ACTIVITY_LEVELS, FITNESS_LEVELS, GENDERS, GOALS, NUMBER_FIELDS } from '../constants/profile.js'
 import { useAuth } from '../context/AuthContext.jsx'
@@ -72,16 +73,13 @@ export default function Profile() {
     <AppLayout>
       <form onSubmit={handleSave} className="mx-auto max-w-[1100px] px-4 py-6 sm:px-8 lg:py-8" noValidate>
         <header className="flex flex-wrap items-center gap-5">
-          <span className="flex h-16 w-16 items-center justify-center rounded-full bg-volt text-2xl font-bold text-ink uppercase">
-            {name[0]}
-          </span>
-          <div className="min-w-0">
+          <AvatarUpload>
             <p className="text-xs tracking-[0.14em] text-mute uppercase">Profile</p>
             <h1 className="mt-1 truncate text-[clamp(1.9rem,4vw,3rem)] leading-none font-semibold tracking-[-0.04em] capitalize">
               {name}
             </h1>
-            <p className="mt-1.5 text-sm text-mute">{user?.email}</p>
-          </div>
+            <p className="mt-1.5 truncate text-sm text-mute">{user?.email}</p>
+          </AvatarUpload>
 
           <div className="flex w-full items-center gap-3 sm:ml-auto sm:w-auto">
             <button

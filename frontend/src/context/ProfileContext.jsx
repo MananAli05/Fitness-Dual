@@ -6,7 +6,7 @@ import { useAuth } from './AuthContext.jsx'
 const ProfileContext = createContext(null)
 
 const PROFILE_FIELDS =
-  'username, full_name, goal, gender, age, height_cm, weight_kg, activity_level, fitness_level, onboarded, phase_started_at'
+  'username, full_name, avatar_url, goal, gender, age, height_cm, weight_kg, activity_level, fitness_level, onboarded, phase_started_at'
 
 export function ProfileProvider({ children }) {
   const { user } = useAuth()
@@ -55,6 +55,7 @@ export function ProfileProvider({ children }) {
     save,
     name: profile?.username || profile?.full_name || user?.email?.split('@')[0] || 'Athlete',
     goal: profile?.goal ?? 'bulk',
+    level: profile?.fitness_level ?? 'beginner',
     targets: calculateTargets(profile),
   }
 

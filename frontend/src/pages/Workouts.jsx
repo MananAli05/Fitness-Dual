@@ -13,12 +13,12 @@ import { getTodaysPlan } from '../utils/workouts.js'
 
 export default function Workouts() {
   const navigate = useNavigate()
-  const { goal } = useProfile()
+  const { goal, level } = useProfile()
   const { activeWorkout, startWorkout } = useWorkout()
   const [category, setCategory] = useState('All')
   const [search, setSearch] = useState('')
 
-  const plan = getTodaysPlan(goal)
+  const plan = getTodaysPlan(goal, level)
   const query = search.trim().toLowerCase()
   const exercises = EXERCISES.filter(
     (exercise) =>
@@ -69,7 +69,7 @@ export default function Workouts() {
 
           <div className="mt-5 grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
             {exercises.map((exercise) => (
-              <ExerciseCard key={exercise.id} exercise={exercise} goal={goal} />
+              <ExerciseCard key={exercise.id} exercise={exercise} goal={goal} level={level} />
             ))}
           </div>
           {exercises.length === 0 && <p className="mt-5 text-sm text-mute">No exercises match your search.</p>}

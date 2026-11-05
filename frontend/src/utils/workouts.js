@@ -1,21 +1,43 @@
 import { findExercise } from '../constants/exercises.js'
-import { WORKOUT_PLANS } from '../constants/plans.js'
+import { BEGINNER_SWAPS, LEVEL_SET_CHANGE, MINUTES_PER_SET, WEEKLY_PLANS } from '../constants/plans.js'
 import { daysAgo, startOfWeek, toDateKey, weeksBetween } from './dates.js'
 
-export function getTodaysPlan(goal) {
-  const plan = WORKOUT_PLANS[goal] ?? WORKOUT_PLANS.bulk
-  const exercises = plan.exerciseIds.map(findExercise).map((exercise) => ({
-    id: exercise.id,
-    name: exercise.name,
-    detail: formatTarget(exercise, goal),
-  }))
-
-  return { ...plan, exercises }
+export function getTarget(exercise, goal, level) {
+  const target = exercise[goal] ?? exercise.bulk
+  const sets = Math.max(2, target.sets + (LEVEL_SET_CHANGE[level] ?? 0))
+  return { ...target, sets }
 }
 
-export function createDefaultSets(exerciseId, goal) {
-  const exercise = findExercise(exerciseId)
-  const target = exercise[goal] ?? exercise.bulk
+export function formatTarget(exercise, goal, level) {
+  const target = getTarget(exercise, goal, level)
+  return exercise.type === 'time' ? `${target.sets} × ${target.seconds}s` : `${target.sets} × ${target.reps}`
+}
+
+function getPlanExerciseIds(exerciseIds, level) {
+  const ids = level === 'beginner' ? exerciseIds.map((id) => BEGINNER_SWAPS[id] ?? id) : exerciseIds
+  return [...new Set(ids)]
+}
+
+export function getTodaysPlan(goal, level, date = new Date()) {
+  const week = WEEKLY_PLANS[goal] ?? WEEKLY_PLANS.bulk
+  const day = week[date.getDay()]
+  const exerciseIds = getPlanExerciseIds(day.exerciseIds, level)
+
+  const exercises = exerciseIds.map(findExercise).map((exercise) => ({
+    id: exercise.id,
+    name: exercise.name,
+    sets: getTarget(exercise, goal, level).sets,
+    detail: formatTarget(exercise, goal, level),
+  }))
+
+  const totalSets = exercises.reduce((total, exercise) => total + exercise.sets, 0)
+  const minutes = Math.round((totalSets * (MINUTES_PER_SET[goal] ?? MINUTES_PER_SET.bulk)) / 5) * 5
+
+  return { title: day.title, minutes, exerciseIds, exercises }
+}
+
+export function createDefaultSets(exerciseId, goal, level) {
+  const target = getTarget(findExercise(exerciseId), goal, level)
 
   return Array.from({ length: target.sets }, () => ({
     reps: target.reps ?? '',
@@ -23,11 +45,6 @@ export function createDefaultSets(exerciseId, goal) {
     weight: '',
     done: false,
   }))
-}
-
-export function formatTarget(exercise, goal) {
-  const target = exercise[goal] ?? exercise.bulk
-  return exercise.type === 'time' ? `${target.sets} × ${target.seconds}s` : `${target.sets} × ${target.reps}`
 }
 
 export function summarizeSets(sets) {

@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
 import { formatTarget } from '../../utils/workouts.js'
 
-export default function ExerciseCard({ exercise, goal }) {
+export default function ExerciseCard({ exercise, goal, level }) {
   return (
     <Link
       to={`/workouts/exercises/${exercise.id}`}
@@ -15,7 +15,7 @@ export default function ExerciseCard({ exercise, goal }) {
 
       <div className="mt-auto flex items-center justify-between gap-3 border-t border-line pt-4 text-sm">
         <span className="truncate text-mute">{exercise.equipment}</span>
-        <span className="shrink-0 font-medium text-volt tabular-nums">{formatTarget(exercise, goal)}</span>
+        <span className="shrink-0 font-medium text-volt tabular-nums">{formatTarget(exercise, goal, level)}</span>
       </div>
     </Link>
   )

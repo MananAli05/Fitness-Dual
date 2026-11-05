@@ -30,7 +30,7 @@ function NoActiveWorkout({ onStartPlan }) {
 
 export default function WorkoutSession() {
   const navigate = useNavigate()
-  const { goal } = useProfile()
+  const { goal, level } = useProfile()
   const workout = useWorkout()
   const { activeWorkout } = workout
   const [showPicker, setShowPicker] = useState(false)
@@ -38,7 +38,7 @@ export default function WorkoutSession() {
   const [error, setError] = useState(null)
 
   const handleStartPlan = () => {
-    const plan = getTodaysPlan(goal)
+    const plan = getTodaysPlan(goal, level)
     workout.startWorkout({ title: plan.title, exerciseIds: plan.exerciseIds })
   }
 

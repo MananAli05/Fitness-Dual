@@ -12,14 +12,14 @@ import { formatTarget } from '../utils/workouts.js'
 export default function ExerciseDetail() {
   const navigate = useNavigate()
   const { exerciseId } = useParams()
-  const { goal } = useProfile()
+  const { goal, level } = useProfile()
   const { activeWorkout, startWorkout, addExercise } = useWorkout()
   const exercise = findExercise(exerciseId)
 
   if (!exercise) return <Navigate to="/workouts" replace />
 
   const details = [
-    { label: 'Target', value: formatTarget(exercise, goal) },
+    { label: 'Target', value: formatTarget(exercise, goal, level) },
     { label: 'Level', value: exercise.level },
     { label: 'Equipment', value: exercise.equipment },
     { label: 'Muscles', value: exercise.muscles.join(', ') },
