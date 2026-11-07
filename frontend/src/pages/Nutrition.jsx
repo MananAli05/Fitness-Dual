@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import Alert from '../components/common/Alert.jsx'
 import PageHeader from '../components/common/PageHeader.jsx'
 import StatCard from '../components/dashboard/StatCard.jsx'
+import DayPicker from '../components/nutrition/DayPicker.jsx'
 import FoodLogForm from '../components/nutrition/FoodLogForm.jsx'
 import FoodLogList from '../components/nutrition/FoodLogList.jsx'
 import MealPlanCard from '../components/nutrition/MealPlanCard.jsx'
@@ -11,14 +12,20 @@ import { useAuth } from '../context/AuthContext.jsx'
 import { useProfile } from '../context/ProfileContext.jsx'
 import AppLayout from '../layouts/AppLayout.jsx'
 import { addFoodLog, deleteFoodLog, fetchFoodLogs, fetchWaterLogs, saveWaterGlasses } from '../lib/nutrition.js'
-import { formatDay, toDateKey } from '../utils/dates.js'
+import { daysAgo, formatDay, toDateKey } from '../utils/dates.js'
 import { sumMacros } from '../utils/nutrition.js'
 
 export default function Nutrition() {
   const { user } = useAuth()
   const { goal, targets } = useProfile()
-  const [today] = useState(() => toDateKey())
+  const [daysBack, setDaysBack] = useState(0)
+  const [loggingMeal, setLoggingMeal] = useState(null)
   const [foodLogs, setFoodLogs] = useState(null)
+
+  const selectedDate = daysAgo(daysBack)
+  const dateKey = toDateKey(selectedDate)
+  const dayLabel = daysBack === 0 ? 'Today' : daysBack === 1 ? 'Yesterday' : formatDay(dateKey)
+  const listTitle = daysBack <= 1 ? `Food eaten ${dayLabel.toLowerCase()}` : `Food eaten on ${dayLabel}`
   const [glasses, setGlasses] = useState(0)
   const [savingWater, setSavingWater] = useState(false)
   const [error, setError] = useState(null)
@@ -26,7 +33,7 @@ export default function Nutrition() {
   useEffect(() => {
     let cancelled = false
 
-    Promise.all([fetchFoodLogs(today), fetchWaterLogs(today)]).then(([food, water]) => {
+    Promise.all([fetchFoodLogs(dateKey), fetchWaterLogs(dateKey)]).then(([food, water]) => {
       if (cancelled) return
       setFoodLogs(food.data)
       setGlasses(water.data[0]?.glasses ?? 0)
@@ -36,27 +43,36 @@ export default function Nutrition() {
     return () => {
       cancelled = true
     }
-  }, [today])
+  }, [dateKey])
 
   const totals = sumMacros(foodLogs ?? [])
   const macros = targets
     ? [
-        { label: 'Calories', value: totals.calories, target: targets.calories, unit: 'kcal today' },
-        { label: 'Protein', value: Math.round(totals.protein), target: targets.protein, unit: 'grams today' },
-        { label: 'Carbs', value: Math.round(totals.carbs), target: targets.carbs, unit: 'grams today' },
-        { label: 'Fat', value: Math.round(totals.fat), target: targets.fat, unit: 'grams today' },
+        { label: 'Calories', value: totals.calories, target: targets.calories, unit: 'kcal eaten' },
+        { label: 'Protein', value: Math.round(totals.protein), target: targets.protein, unit: 'grams eaten' },
+        { label: 'Carbs', value: Math.round(totals.carbs), target: targets.carbs, unit: 'grams eaten' },
+        { label: 'Fat', value: Math.round(totals.fat), target: targets.fat, unit: 'grams eaten' },
       ]
     : []
 
+  const changeDay = (newDaysBack) => {
+    setFoodLogs(null)
+    setDaysBack(newDaysBack)
+  }
+
   const handleAddFood = async (entry) => {
-    const { data, error: addError } = await addFoodLog(user.id, { ...entry, log_date: today })
+    const { data, error: addError } = await addFoodLog(user.id, { ...entry, log_date: dateKey })
     if (!addError) setFoodLogs((current) => [...(current ?? []), data])
     return { error: addError }
   }
 
   const handleLogPlanMeal = async (meal) => {
+    if (loggingMeal) return
+
     setError(null)
+    setLoggingMeal(meal.name)
     const { error: addError } = await handleAddFood(meal)
+    setLoggingMeal(null)
     if (addError) setError(addError)
   }
 
@@ -77,7 +93,7 @@ export default function Nutrition() {
     setSavingWater(true)
     setError(null)
 
-    const { error: saveError } = await saveWaterGlasses(user.id, today, newGlasses)
+    const { error: saveError } = await saveWaterGlasses(user.id, dateKey, newGlasses)
     setSavingWater(false)
 
     if (saveError) {
@@ -89,7 +105,14 @@ export default function Nutrition() {
   return (
     <AppLayout>
       <div className="mx-auto max-w-[1400px] px-4 py-6 sm:px-8 lg:py-8">
-        <PageHeader eyebrow={formatDay(today)} title="Nutrition" />
+        <PageHeader eyebrow={formatDay(dateKey)} title="Nutrition">
+          <DayPicker
+            label={dayLabel}
+            onPrevious={() => changeDay(daysBack + 1)}
+            onNext={() => changeDay(daysBack - 1)}
+            canGoNext={daysBack > 0}
+          />
+        </PageHeader>
 
         {error && (
           <div className="mt-6">
@@ -111,7 +134,7 @@ export default function Nutrition() {
           <div className="space-y-4 lg:col-span-7">
             <FoodLogForm onAdd={handleAddFood} />
             {foodLogs ? (
-              <FoodLogList logs={foodLogs} onRemove={handleRemoveFood} />
+              <FoodLogList title={listTitle} logs={foodLogs} onRemove={handleRemoveFood} />
             ) : (
               <p className="text-sm text-mute">Loading food log…</p>
             )}
@@ -124,7 +147,13 @@ export default function Nutrition() {
               onChange={handleWaterChange}
               saving={savingWater || !foodLogs}
             />
-            <MealPlanCard goal={goal} onLog={handleLogPlanMeal} />
+            <MealPlanCard
+              goal={goal}
+              date={selectedDate}
+              calorieTarget={targets?.calories}
+              loggedFoods={foodLogs ?? []}
+              onLog={handleLogPlanMeal}
+            />
           </div>
         </div>
       </div>

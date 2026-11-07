@@ -2,18 +2,18 @@ import { MEAL_TYPES } from '../../constants/nutrition.js'
 import Card from '../common/Card.jsx'
 
 function formatMacros(log) {
-  return `P ${Number(log.protein_g)} g · C ${Number(log.carbs_g)} g · F ${Number(log.fat_g)} g`
+  return `Protein ${Math.round(log.protein_g)} g · Carbs ${Math.round(log.carbs_g)} g · Fat ${Math.round(log.fat_g)} g`
 }
 
-export default function FoodLogList({ logs, onRemove }) {
+export default function FoodLogList({ title, logs, onRemove }) {
   const meals = MEAL_TYPES.map((mealType) => ({
     ...mealType,
     logs: logs.filter((log) => log.meal === mealType.value),
   })).filter((meal) => meal.logs.length > 0)
 
   return (
-    <Card title="Today's food" delay={0.06}>
-      {meals.length === 0 && <p className="text-sm text-mute">Nothing logged yet today.</p>}
+    <Card title={title} delay={0.06}>
+      {meals.length === 0 && <p className="text-sm text-mute">Nothing logged yet. Search for a food above to add it.</p>}
 
       <div className="space-y-6">
         {meals.map((meal) => (

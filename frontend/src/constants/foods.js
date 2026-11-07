@@ -1,0 +1,60 @@
+export const FOODS = [
+  { id: 'roti', name: 'Roti', portion: 'roti', aliases: ['chapati', 'phulka'], calories: 120, protein_g: 4, carbs_g: 20, fat_g: 3 },
+  { id: 'paratha', name: 'Paratha', portion: 'paratha', aliases: [], calories: 260, protein_g: 5, carbs_g: 32, fat_g: 12 },
+  { id: 'naan', name: 'Naan', portion: 'naan', aliases: [], calories: 300, protein_g: 9, carbs_g: 50, fat_g: 6 },
+  { id: 'puri', name: 'Puri', portion: 'puri', aliases: ['poori', 'halwa puri'], calories: 150, protein_g: 2, carbs_g: 15, fat_g: 9 },
+  { id: 'bread', name: 'Bread slice', portion: 'slice', aliases: ['double roti', 'toast'], calories: 75, protein_g: 3, carbs_g: 13, fat_g: 1 },
+  { id: 'rice', name: 'Rice (plain)', portion: 'plate', aliases: ['chawal', 'boiled rice'], calories: 260, protein_g: 5, carbs_g: 57, fat_g: 1 },
+  { id: 'oats', name: 'Oats', portion: 'bowl', aliases: ['daliya', 'porridge'], calories: 150, protein_g: 5, carbs_g: 27, fat_g: 3 },
+
+  { id: 'daal', name: 'Daal', portion: 'bowl', aliases: ['dal', 'lentils', 'masoor', 'moong'], calories: 230, protein_g: 12, carbs_g: 30, fat_g: 7 },
+  { id: 'chana', name: 'Chana (chickpea curry)', portion: 'bowl', aliases: ['cholay', 'chole', 'chickpeas'], calories: 280, protein_g: 12, carbs_g: 38, fat_g: 9 },
+  { id: 'aloo-sabzi', name: 'Aloo sabzi', portion: 'bowl', aliases: ['potato', 'aloo'], calories: 180, protein_g: 3, carbs_g: 25, fat_g: 8 },
+  { id: 'mixed-sabzi', name: 'Mixed sabzi', portion: 'bowl', aliases: ['vegetables', 'sabzi', 'veg'], calories: 150, protein_g: 4, carbs_g: 15, fat_g: 8 },
+  { id: 'palak', name: 'Palak (saag)', portion: 'bowl', aliases: ['spinach', 'saag'], calories: 160, protein_g: 5, carbs_g: 12, fat_g: 10 },
+
+  { id: 'chicken-karahi', name: 'Chicken karahi', portion: 'plate', aliases: ['murgh', 'chicken curry'], calories: 450, protein_g: 38, carbs_g: 8, fat_g: 29 },
+  { id: 'chicken-biryani', name: 'Chicken biryani', portion: 'plate', aliases: ['biryani', 'pulao'], calories: 550, protein_g: 25, carbs_g: 70, fat_g: 18 },
+  { id: 'chicken-tikka', name: 'Chicken tikka', portion: 'serving (4 pieces)', aliases: ['tikka', 'bbq'], calories: 250, protein_g: 35, carbs_g: 4, fat_g: 10 },
+  { id: 'grilled-chicken', name: 'Grilled chicken breast', portion: 'piece', aliases: ['chicken breast', 'murgh'], calories: 250, protein_g: 46, carbs_g: 0, fat_g: 6 },
+  { id: 'beef-qeema', name: 'Beef qeema', portion: 'bowl', aliases: ['keema', 'mince', 'gosht'], calories: 380, protein_g: 27, carbs_g: 10, fat_g: 26 },
+  { id: 'mutton-curry', name: 'Mutton or beef curry', portion: 'bowl', aliases: ['gosht', 'salan', 'beef'], calories: 400, protein_g: 30, carbs_g: 10, fat_g: 27 },
+  { id: 'nihari', name: 'Nihari', portion: 'bowl', aliases: [], calories: 450, protein_g: 30, carbs_g: 10, fat_g: 32 },
+  { id: 'haleem', name: 'Haleem', portion: 'bowl', aliases: ['daleem'], calories: 350, protein_g: 20, carbs_g: 35, fat_g: 14 },
+  { id: 'seekh-kabab', name: 'Seekh kabab', portion: 'kabab', aliases: ['kebab'], calories: 150, protein_g: 10, carbs_g: 2, fat_g: 11 },
+  { id: 'chapli-kabab', name: 'Chapli kabab', portion: 'kabab', aliases: ['kebab'], calories: 280, protein_g: 15, carbs_g: 10, fat_g: 20 },
+  { id: 'fish', name: 'Grilled fish', portion: 'piece', aliases: ['machli'], calories: 210, protein_g: 35, carbs_g: 0, fat_g: 7 },
+
+  { id: 'boiled-egg', name: 'Boiled egg', portion: 'egg', aliases: ['anda', 'egg'], calories: 78, protein_g: 6, carbs_g: 1, fat_g: 5 },
+  { id: 'fried-egg', name: 'Fried egg', portion: 'egg', aliases: ['anda', 'egg'], calories: 90, protein_g: 6, carbs_g: 1, fat_g: 7 },
+  { id: 'omelette', name: 'Omelette (2 eggs)', portion: 'omelette', aliases: ['anda', 'egg', 'omelet'], calories: 190, protein_g: 13, carbs_g: 2, fat_g: 14 },
+  { id: 'milk', name: 'Milk', portion: 'glass', aliases: ['doodh'], calories: 150, protein_g: 8, carbs_g: 12, fat_g: 8 },
+  { id: 'chai', name: 'Doodh patti chai', portion: 'cup', aliases: ['tea', 'chai'], calories: 120, protein_g: 4, carbs_g: 14, fat_g: 5 },
+  { id: 'green-tea', name: 'Green tea', portion: 'cup', aliases: ['qehwa', 'kahwa', 'tea'], calories: 2, protein_g: 0, carbs_g: 0, fat_g: 0 },
+  { id: 'dahi', name: 'Dahi (yogurt)', portion: 'bowl', aliases: ['yogurt', 'curd'], calories: 90, protein_g: 5, carbs_g: 7, fat_g: 5 },
+  { id: 'raita', name: 'Raita', portion: 'bowl', aliases: ['dahi'], calories: 80, protein_g: 4, carbs_g: 7, fat_g: 4 },
+  { id: 'lassi', name: 'Lassi (sweet)', portion: 'glass', aliases: [], calories: 220, protein_g: 7, carbs_g: 35, fat_g: 6 },
+  { id: 'whey', name: 'Whey protein', portion: 'scoop', aliases: ['protein shake', 'protein'], calories: 120, protein_g: 24, carbs_g: 3, fat_g: 2 },
+
+  { id: 'banana', name: 'Banana', portion: 'banana', aliases: ['kela'], calories: 105, protein_g: 1, carbs_g: 27, fat_g: 0 },
+  { id: 'apple', name: 'Apple', portion: 'apple', aliases: ['seb'], calories: 95, protein_g: 0, carbs_g: 25, fat_g: 0 },
+  { id: 'dates', name: 'Dates (3 pieces)', portion: 'serving', aliases: ['khajoor', 'khajur'], calories: 70, protein_g: 1, carbs_g: 18, fat_g: 0 },
+  { id: 'almonds', name: 'Almonds (10 pieces)', portion: 'handful', aliases: ['badam', 'nuts'], calories: 70, protein_g: 3, carbs_g: 3, fat_g: 6 },
+  { id: 'peanut-butter', name: 'Peanut butter', portion: 'spoon', aliases: [], calories: 95, protein_g: 4, carbs_g: 3, fat_g: 8 },
+  { id: 'fruit-chaat', name: 'Fruit chaat', portion: 'bowl', aliases: ['fruit'], calories: 150, protein_g: 2, carbs_g: 35, fat_g: 1 },
+  { id: 'channa-chaat', name: 'Channa chaat', portion: 'bowl', aliases: ['chaat'], calories: 220, protein_g: 10, carbs_g: 32, fat_g: 6 },
+  { id: 'salad', name: 'Salad', portion: 'bowl', aliases: ['kachumber'], calories: 40, protein_g: 2, carbs_g: 8, fat_g: 0 },
+
+  { id: 'samosa', name: 'Samosa', portion: 'samosa', aliases: [], calories: 260, protein_g: 4, carbs_g: 30, fat_g: 14 },
+  { id: 'pakora', name: 'Pakora (5 pieces)', portion: 'serving', aliases: ['pakoray'], calories: 200, protein_g: 5, carbs_g: 20, fat_g: 11 },
+  { id: 'fries', name: 'French fries', portion: 'serving', aliases: ['chips'], calories: 320, protein_g: 4, carbs_g: 40, fat_g: 16 },
+  { id: 'burger', name: 'Chicken burger', portion: 'burger', aliases: ['zinger'], calories: 450, protein_g: 25, carbs_g: 40, fat_g: 20 },
+  { id: 'pizza', name: 'Pizza slice', portion: 'slice', aliases: [], calories: 285, protein_g: 12, carbs_g: 36, fat_g: 10 },
+  { id: 'shawarma', name: 'Chicken shawarma', portion: 'shawarma', aliases: ['wrap', 'roll'], calories: 450, protein_g: 25, carbs_g: 45, fat_g: 18 },
+  { id: 'mango-shake', name: 'Mango shake', portion: 'glass', aliases: ['aam', 'shake'], calories: 300, protein_g: 7, carbs_g: 50, fat_g: 8 },
+  { id: 'soft-drink', name: 'Soft drink', portion: 'can', aliases: ['coke', 'pepsi', 'cold drink'], calories: 140, protein_g: 0, carbs_g: 39, fat_g: 0 },
+]
+
+export function findFood(id) {
+  return FOODS.find((food) => food.id === id)
+}

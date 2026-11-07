@@ -12,27 +12,97 @@ export const FOOD_FIELDS = {
   fat_g: { label: 'Fat', unit: 'g', max: 500, step: 0.1 },
 }
 
-export const MEAL_PLANS = {
-  bulk: {
-    title: 'High-protein bulk day',
-    meals: [
-      { meal: 'breakfast', name: 'Oats with milk, banana and peanut butter', calories: 650, protein_g: 25, carbs_g: 90, fat_g: 20 },
-      { meal: 'lunch', name: 'Chicken rice bowl with vegetables', calories: 750, protein_g: 50, carbs_g: 95, fat_g: 16 },
-      { meal: 'snack', name: 'Greek yogurt with honey and almonds', calories: 350, protein_g: 22, carbs_g: 30, fat_g: 15 },
-      { meal: 'dinner', name: 'Lentil or beef curry with two rotis and salad', calories: 800, protein_g: 45, carbs_g: 85, fat_g: 28 },
-      { meal: 'snack', name: 'Glass of milk and two boiled eggs', calories: 300, protein_g: 22, carbs_g: 14, fat_g: 17 },
+export const MEAL_PLAN_WEEK = {
+  bulk: [
+    [
+      { meal: 'breakfast', items: [['paratha', 1], ['omelette', 1], ['chai', 1]] },
+      { meal: 'lunch', items: [['chicken-biryani', 1], ['raita', 1]] },
+      { meal: 'snack', items: [['banana', 2], ['peanut-butter', 1], ['milk', 1]] },
+      { meal: 'dinner', items: [['chicken-karahi', 1], ['roti', 3], ['salad', 1]] },
     ],
-  },
-  cut: {
-    title: 'Lean cut day',
-    meals: [
-      { meal: 'breakfast', name: 'Egg white omelette with vegetables and one toast', calories: 300, protein_g: 28, carbs_g: 22, fat_g: 9 },
-      { meal: 'lunch', name: 'Grilled chicken salad with chickpeas', calories: 450, protein_g: 45, carbs_g: 30, fat_g: 14 },
-      { meal: 'snack', name: 'Greek yogurt with berries', calories: 180, protein_g: 18, carbs_g: 20, fat_g: 2 },
-      { meal: 'dinner', name: 'Grilled fish with one roti and vegetables', calories: 500, protein_g: 42, carbs_g: 45, fat_g: 14 },
-      { meal: 'snack', name: 'Apple and a handful of almonds', calories: 220, protein_g: 5, carbs_g: 25, fat_g: 12 },
+    [
+      { meal: 'breakfast', items: [['oats', 1], ['milk', 1], ['banana', 1], ['almonds', 1]] },
+      { meal: 'lunch', items: [['daal', 1], ['rice', 1], ['chicken-tikka', 1]] },
+      { meal: 'snack', items: [['lassi', 1], ['dates', 1]] },
+      { meal: 'dinner', items: [['beef-qeema', 1], ['roti', 3], ['raita', 1]] },
     ],
-  },
+    [
+      { meal: 'breakfast', items: [['boiled-egg', 3], ['paratha', 1], ['chai', 1]] },
+      { meal: 'lunch', items: [['chana', 1], ['rice', 1], ['dahi', 1]] },
+      { meal: 'snack', items: [['mango-shake', 1], ['almonds', 1]] },
+      { meal: 'dinner', items: [['grilled-chicken', 1], ['roti', 2], ['mixed-sabzi', 1]] },
+    ],
+    [
+      { meal: 'breakfast', items: [['omelette', 1], ['roti', 2], ['chai', 1]] },
+      { meal: 'lunch', items: [['nihari', 1], ['naan', 1]] },
+      { meal: 'snack', items: [['whey', 1], ['banana', 1], ['milk', 1]] },
+      { meal: 'dinner', items: [['daal', 1], ['rice', 1], ['chicken-tikka', 1]] },
+    ],
+    [
+      { meal: 'breakfast', items: [['oats', 1], ['milk', 1], ['peanut-butter', 1], ['banana', 1]] },
+      { meal: 'lunch', items: [['chicken-karahi', 1], ['roti', 2]] },
+      { meal: 'snack', items: [['channa-chaat', 1], ['lassi', 1]] },
+      { meal: 'dinner', items: [['fish', 1], ['rice', 1], ['salad', 1]] },
+    ],
+    [
+      { meal: 'breakfast', items: [['puri', 2], ['chana', 1], ['chai', 1]] },
+      { meal: 'lunch', items: [['chicken-biryani', 1], ['raita', 1]] },
+      { meal: 'snack', items: [['almonds', 1], ['dates', 1], ['milk', 1]] },
+      { meal: 'dinner', items: [['mutton-curry', 1], ['roti', 2], ['salad', 1]] },
+    ],
+    [
+      { meal: 'breakfast', items: [['paratha', 1], ['boiled-egg', 2], ['dahi', 1]] },
+      { meal: 'lunch', items: [['haleem', 1], ['naan', 1]] },
+      { meal: 'snack', items: [['whey', 1], ['banana', 1], ['peanut-butter', 1]] },
+      { meal: 'dinner', items: [['grilled-chicken', 1], ['rice', 1], ['mixed-sabzi', 1]] },
+    ],
+  ],
+  cut: [
+    [
+      { meal: 'breakfast', items: [['omelette', 1], ['roti', 1], ['green-tea', 1]] },
+      { meal: 'lunch', items: [['grilled-chicken', 1], ['salad', 1], ['dahi', 1]] },
+      { meal: 'snack', items: [['apple', 1], ['almonds', 1]] },
+      { meal: 'dinner', items: [['daal', 1], ['roti', 1], ['mixed-sabzi', 1]] },
+    ],
+    [
+      { meal: 'breakfast', items: [['oats', 1], ['boiled-egg', 2]] },
+      { meal: 'lunch', items: [['chicken-tikka', 1], ['roti', 1], ['salad', 1]] },
+      { meal: 'snack', items: [['fruit-chaat', 1]] },
+      { meal: 'dinner', items: [['fish', 1], ['mixed-sabzi', 1]] },
+    ],
+    [
+      { meal: 'breakfast', items: [['boiled-egg', 3], ['bread', 1], ['green-tea', 1]] },
+      { meal: 'lunch', items: [['chana', 1], ['salad', 1], ['dahi', 1]] },
+      { meal: 'snack', items: [['whey', 1], ['apple', 1]] },
+      { meal: 'dinner', items: [['chicken-karahi', 1], ['roti', 1], ['salad', 1]] },
+    ],
+    [
+      { meal: 'breakfast', items: [['dahi', 1], ['banana', 1], ['almonds', 1]] },
+      { meal: 'lunch', items: [['grilled-chicken', 1], ['rice', 1]] },
+      { meal: 'snack', items: [['green-tea', 1], ['dates', 1]] },
+      { meal: 'dinner', items: [['palak', 1], ['roti', 1], ['chicken-tikka', 1]] },
+    ],
+    [
+      { meal: 'breakfast', items: [['omelette', 1], ['bread', 1], ['green-tea', 1]] },
+      { meal: 'lunch', items: [['daal', 1], ['rice', 1], ['salad', 1]] },
+      { meal: 'snack', items: [['channa-chaat', 1]] },
+      { meal: 'dinner', items: [['grilled-chicken', 1], ['mixed-sabzi', 1]] },
+    ],
+    [
+      { meal: 'breakfast', items: [['oats', 1], ['milk', 1]] },
+      { meal: 'lunch', items: [['fish', 1], ['roti', 1], ['salad', 1]] },
+      { meal: 'snack', items: [['whey', 1], ['apple', 1]] },
+      { meal: 'dinner', items: [['beef-qeema', 1], ['roti', 1], ['raita', 1]] },
+    ],
+    [
+      { meal: 'breakfast', items: [['boiled-egg', 2], ['roti', 1], ['chai', 1]] },
+      { meal: 'lunch', items: [['chicken-tikka', 1], ['chana', 1]] },
+      { meal: 'snack', items: [['fruit-chaat', 1]] },
+      { meal: 'dinner', items: [['daal', 1], ['mixed-sabzi', 1], ['roti', 1]] },
+    ],
+  ],
 }
+
+export const ADJUSTABLE_FOODS = ['roti', 'paratha', 'naan', 'puri', 'bread', 'rice', 'oats']
 
 export const DEFAULT_WATER_TARGET = 8

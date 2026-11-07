@@ -45,7 +45,7 @@ export const HELP_SECTIONS = [
       {
         question: 'How do I log food and water?',
         answer:
-          'Open Nutrition. Add a food with its calories and macros, or log a meal from the suggested meal plan. Use Add glass to track water, one glass is 250 ml.',
+          'Open Nutrition, pick the meal and search for your food, for example roti or daal. Choose how much you ate and tap Add. If your food is not in the list, enter it yourself. You can also tap Log on a meal from the daily meal plan. Use the arrows at the top to see earlier days, and Add glass to track water (one glass is 250 ml).',
       },
       {
         question: 'Can I remove a food I logged by mistake?',
