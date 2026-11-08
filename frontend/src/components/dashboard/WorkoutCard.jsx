@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import Card from '../common/Card.jsx'
 
 export default function WorkoutCard({ workout, doneToday, onManual }) {
@@ -23,9 +24,12 @@ export default function WorkoutCard({ workout, doneToday, onManual }) {
       </ul>
 
       <div className="mt-4 grid grid-cols-2 gap-2">
-        <button className="h-11 rounded-full bg-volt text-sm font-semibold text-ink transition hover:bg-volt-hi">
+        <Link
+          to="/ai-coach"
+          className="flex h-11 items-center justify-center rounded-full bg-volt text-sm font-semibold text-ink transition hover:bg-volt-hi"
+        >
           AI camera
-        </button>
+        </Link>
         <button
           type="button"
           onClick={onManual}
