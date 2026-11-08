@@ -43,8 +43,8 @@ export default function AiCoach() {
               key={item.id}
               exercise={item.exercise}
               target={formatTarget(item.exercise, goal, level)}
+              image={item.image}
               checks={item.checks}
-              poses={item.poses}
               selected={item.id === selectedId}
               onSelect={() => setSelectedId(item.id)}
             />
