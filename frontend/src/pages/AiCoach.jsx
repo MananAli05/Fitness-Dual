@@ -4,6 +4,7 @@ import AiExerciseCard from '../components/aiCoach/AiExerciseCard.jsx'
 import Card from '../components/common/Card.jsx'
 import PageHeader from '../components/common/PageHeader.jsx'
 import { AI_EXERCISES } from '../constants/aiExercises.js'
+import { AI_RULES } from '../constants/aiRules.js'
 import { findExercise } from '../constants/exercises.js'
 import { useProfile } from '../context/ProfileContext.jsx'
 import AppLayout from '../layouts/AppLayout.jsx'
@@ -105,7 +106,7 @@ export default function AiCoach() {
                     ))}
                   </ol>
 
-                  {selected.ready ? (
+                  {AI_RULES[selected.id] ? (
                     <Link
                       to={`/ai-coach/${selected.id}`}
                       className="mt-6 flex h-12 w-full items-center justify-center rounded-full bg-volt px-8 text-sm font-semibold text-ink sm:inline-flex sm:w-auto"

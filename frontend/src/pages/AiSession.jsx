@@ -1,24 +1,20 @@
 import { useEffect, useRef, useState } from 'react'
 import { Link, Navigate, useParams } from 'react-router-dom'
 import Card from '../components/common/Card.jsx'
-import { AI_EXERCISES } from '../constants/aiExercises.js'
+import { AI_RULES } from '../constants/aiRules.js'
 import { findExercise } from '../constants/exercises.js'
 import { useAuth } from '../context/AuthContext.jsx'
 import { useProfile } from '../context/ProfileContext.jsx'
 import AppLayout from '../layouts/AppLayout.jsx'
 import { loadPoseModel } from '../lib/pose.js'
 import { saveWorkout } from '../lib/workouts.js'
-import { BONES, SquatCounter, readSquat, smoothPoints } from '../utils/squat.js'
+import { RepCounter, readJoints, smoothPoints } from '../utils/reps.js'
 import { getTarget } from '../utils/workouts.js'
-
-const isReady = (id) => AI_EXERCISES.some((item) => item.id === id && item.ready)
 
 const MESSAGES = {
   loading: 'Loading the AI model...',
   position: 'Step back until your whole body is in the frame',
   good: 'Good rep',
-  shallow: 'Go lower',
-  knees: 'Push your knees out',
   hidden: 'Show your full body',
 }
 
@@ -28,7 +24,7 @@ function speak(text) {
   window.speechSynthesis.speak(new SpeechSynthesisUtterance(text))
 }
 
-function drawBody(canvas, joints) {
+function drawBody(canvas, joints, bones) {
   const context = canvas.getContext('2d')
   context.clearRect(0, 0, canvas.width, canvas.height)
   if (!joints) return
@@ -38,7 +34,7 @@ function drawBody(canvas, joints) {
   context.strokeStyle = '#c6ff3d'
   context.lineWidth = 6
   context.lineCap = 'round'
-  BONES.forEach(([from, to]) => {
+  bones.forEach(([from, to]) => {
     context.beginPath()
     context.moveTo(...toPixel(joints[from]))
     context.lineTo(...toPixel(joints[to]))
@@ -58,11 +54,12 @@ export default function AiSession() {
   const { user } = useAuth()
   const { goal, level } = useProfile()
   const exercise = findExercise(exerciseId)
+  const rules = AI_RULES[exerciseId]
 
   const videoRef = useRef(null)
   const canvasRef = useRef(null)
   const phaseRef = useRef('loading')
-  const counterRef = useRef(new SquatCounter())
+  const counterRef = useRef(null)
   const startedAtRef = useRef(null)
 
   const [phase, setPhase] = useState('loading')
@@ -81,7 +78,9 @@ export default function AiSession() {
   }
 
   useEffect(() => {
-    if (!isReady(exerciseId)) return
+    const rules = AI_RULES[exerciseId]
+    if (!rules) return
+    counterRef.current = new RepCounter(rules)
 
     let stream = null
     let frameId = null
@@ -100,8 +99,9 @@ export default function AiSession() {
         const raw = result.landmarks[0]
         points = raw ? smoothPoints(points, raw) : null
 
-        const reading = points ? readSquat(points) : null
-        drawBody(canvas, reading?.joints)
+        const joints = points ? readJoints(points, rules.sides) : null
+        const reading = joints ? rules.measure(joints, points) : null
+        drawBody(canvas, joints, rules.bones)
 
         if (phaseRef.current === 'position' && reading) {
           changePhase('countdown')
@@ -113,10 +113,11 @@ export default function AiSession() {
           } else {
             const event = counterRef.current.update(reading)
             if (event) {
-              setMessage(MESSAGES[event])
+              const text = event === 'good' ? MESSAGES.good : rules.messages[event]
+              setMessage(text)
               setReps(counterRef.current.reps)
               setNoReps(counterRef.current.noReps)
-              speak(event === 'good' ? String(counterRef.current.reps) : MESSAGES[event])
+              speak(event === 'good' ? String(counterRef.current.reps) : text)
             }
           }
         }
@@ -215,7 +216,7 @@ export default function AiSession() {
     changePhase('done')
   }
 
-  if (!exercise || !isReady(exerciseId)) return <Navigate to="/ai-coach" replace />
+  if (!exercise || !rules) return <Navigate to="/ai-coach" replace />
 
   if (phase === 'done') {
     return (
