@@ -1,6 +1,7 @@
 import { AnimatePresence } from 'framer-motion'
 import { Navigate, Route, Routes, useLocation } from 'react-router-dom'
 import AiCoach from '../pages/AiCoach.jsx'
+import AiSession from '../pages/AiSession.jsx'
 import Login from '../pages/auth/Login.jsx'
 import ResetPassword from '../pages/auth/ResetPassword.jsx'
 import Dashboard from '../pages/Dashboard.jsx'
@@ -22,6 +23,7 @@ import ProtectedRoute from './ProtectedRoute.jsx'
 const PROTECTED_PAGES = [
   { path: '/workouts', page: Workouts },
   { path: '/ai-coach', page: AiCoach },
+  { path: '/ai-coach/:exerciseId', page: AiSession },
   { path: '/workouts/exercises/:exerciseId', page: ExerciseDetail },
   { path: '/workouts/session', page: WorkoutSession },
   { path: '/progress', page: Progress },

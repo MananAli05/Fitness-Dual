@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { Link } from 'react-router-dom'
 import AiExerciseCard from '../components/aiCoach/AiExerciseCard.jsx'
 import Card from '../components/common/Card.jsx'
 import PageHeader from '../components/common/PageHeader.jsx'
@@ -87,14 +88,25 @@ export default function AiCoach() {
                   ))}
                 </ol>
 
-                <button
-                  type="button"
-                  disabled
-                  className="mt-6 h-12 w-full rounded-full bg-volt px-8 text-sm font-semibold text-ink opacity-40 sm:w-auto"
-                >
-                  Start camera
-                </button>
-                <p className="mt-2 text-xs text-mute">The live camera is coming in the next update.</p>
+                {selected.ready ? (
+                  <Link
+                    to={`/ai-coach/${selected.id}`}
+                    className="mt-6 flex h-12 w-full items-center justify-center rounded-full bg-volt px-8 text-sm font-semibold text-ink sm:inline-flex sm:w-auto"
+                  >
+                    Start camera
+                  </Link>
+                ) : (
+                  <>
+                    <button
+                      type="button"
+                      disabled
+                      className="mt-6 h-12 w-full rounded-full bg-volt px-8 text-sm font-semibold text-ink opacity-40 sm:w-auto"
+                    >
+                      Start camera
+                    </button>
+                    <p className="mt-2 text-xs text-mute">The live camera for this exercise is coming soon.</p>
+                  </>
+                )}
               </div>
             </div>
           </Card>

@@ -12,6 +12,7 @@ export const AI_EXERCISES = [
     id: 'squat',
     image: squatImage,
     video: squatVideo,
+    ready: true,
     checks: 'How low you go and if your knees cave in',
     steps: ['Feet shoulder width apart', 'Sit back until thighs are level with the floor', 'Keep your chest up and push back up'],
   },
