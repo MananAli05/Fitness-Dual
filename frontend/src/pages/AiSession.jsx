@@ -127,7 +127,10 @@ export default function AiSession() {
 
     async function start() {
       try {
-        stream = await navigator.mediaDevices.getUserMedia({ video: { width: 1280, height: 720 }, audio: false })
+        stream = await navigator.mediaDevices.getUserMedia({
+          video: { width: 1280, height: 720 },
+          audio: false,
+        })
         const landmarker = await loadPoseModel()
         if (stopped) return
 
@@ -196,7 +199,15 @@ export default function AiSession() {
         goal,
         startedAt: startedAtRef.current,
         finishedAt: new Date().toISOString(),
-        sets: [{ exercise_id: exercise.id, exercise_name: exercise.name, position: 0, set_number: 1, reps }],
+        sets: [
+          {
+            exercise_id: exercise.id,
+            exercise_name: exercise.name,
+            position: 0,
+            set_number: 1,
+            reps,
+          },
+        ],
       })
       if (saveFailed) setSaveError(saveFailed)
     }
@@ -252,7 +263,10 @@ export default function AiSession() {
             <p className="text-xs font-semibold tracking-wider text-volt uppercase">AI Coach</p>
             <h1 className="mt-1 text-2xl font-semibold tracking-tight sm:text-3xl">{exercise.name}</h1>
           </div>
-          <Link to="/ai-coach" className="text-sm text-mute hover:text-paper">
+          <Link
+            to="/ai-coach"
+            className="flex h-11 items-center rounded-full bg-danger px-6 text-sm font-semibold text-white transition hover:bg-danger/85"
+          >
             Cancel
           </Link>
         </div>
@@ -296,7 +310,9 @@ export default function AiSession() {
             >
               {isLive ? message : 'Get ready'}
             </p>
-            {reps >= target && <p className="mt-3 text-center text-sm text-teal">Target done. Finish when you are ready.</p>}
+            {reps >= target && (
+              <p className="mt-3 text-center text-sm text-teal">Target done. Finish when you are ready.</p>
+            )}
 
             <button
               type="button"

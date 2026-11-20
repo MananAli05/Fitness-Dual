@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import AiExerciseCard from '../components/aiCoach/AiExerciseCard.jsx'
 import Card from '../components/common/Card.jsx'
@@ -14,8 +14,20 @@ const TIPS = ['Stand 2 to 3 metres from the camera', 'Keep your whole body in th
 export default function AiCoach() {
   const { goal, level } = useProfile()
   const [selectedId, setSelectedId] = useState(null)
+  const detailsRef = useRef(null)
 
-  const exercises = AI_EXERCISES.map((item) => ({ ...item, exercise: findExercise(item.id) }))
+  useEffect(() => {
+    if (selectedId)
+      detailsRef.current?.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start',
+      })
+  }, [selectedId])
+
+  const exercises = AI_EXERCISES.map((item) => ({
+    ...item,
+    exercise: findExercise(item.id),
+  }))
   const selected = exercises.find((item) => item.id === selectedId)
 
   return (
@@ -53,63 +65,69 @@ export default function AiCoach() {
         </div>
 
         {selected && (
-          <Card className="mt-6">
-            <div className="grid gap-6 lg:grid-cols-[minmax(0,1.2fr)_minmax(0,1fr)] lg:items-center">
-              <div className="overflow-hidden rounded-2xl bg-ink">
-                {selected.video ? (
-                  <video
-                    key={selected.id}
-                    src={selected.video}
-                    poster={selected.image}
-                    autoPlay
-                    muted
-                    loop
-                    playsInline
-                    className="aspect-video w-full object-cover"
-                  />
-                ) : (
-                  <img src={selected.image} alt={selected.exercise.name} className="aspect-video w-full object-cover" />
-                )}
-              </div>
+          <div ref={detailsRef} className="scroll-mt-24 pt-6">
+            <Card>
+              <div className="grid gap-6 lg:grid-cols-[minmax(0,1.2fr)_minmax(0,1fr)] lg:items-center">
+                <div className="overflow-hidden rounded-2xl bg-ink">
+                  {selected.video ? (
+                    <video
+                      key={selected.id}
+                      src={selected.video}
+                      poster={selected.image}
+                      autoPlay
+                      muted
+                      loop
+                      playsInline
+                      className="aspect-video w-full object-cover"
+                    />
+                  ) : (
+                    <img
+                      src={selected.image}
+                      alt={selected.exercise.name}
+                      className="aspect-video w-full object-cover"
+                    />
+                  )}
+                </div>
 
-              <div>
-                <p className="text-xs font-semibold tracking-wider text-volt uppercase">How to do it</p>
-                <p className="mt-2 text-2xl font-semibold tracking-tight">{selected.exercise.name}</p>
-                <p className="mt-1 text-sm text-mute">{formatTarget(selected.exercise, goal, level)}</p>
+                <div>
+                  <p className="text-xs font-semibold tracking-wider text-volt uppercase">How to do it</p>
+                  <p className="mt-2 text-2xl font-semibold tracking-tight">{selected.exercise.name}</p>
+                  <p className="mt-1 text-sm text-mute">{formatTarget(selected.exercise, goal, level)}</p>
 
-                <ol className="mt-5 space-y-3">
-                  {selected.steps.map((step, index) => (
-                    <li key={step} className="flex gap-3 text-sm text-soft">
-                      <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-white/8 text-xs font-semibold tabular-nums">
-                        {index + 1}
-                      </span>
-                      {step}
-                    </li>
-                  ))}
-                </ol>
+                  <ol className="mt-5 space-y-3">
+                    {selected.steps.map((step, index) => (
+                      <li key={step} className="flex gap-3 text-sm text-soft">
+                        <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-white/8 text-xs font-semibold tabular-nums">
+                          {index + 1}
+                        </span>
+                        {step}
+                      </li>
+                    ))}
+                  </ol>
 
-                {selected.ready ? (
-                  <Link
-                    to={`/ai-coach/${selected.id}`}
-                    className="mt-6 flex h-12 w-full items-center justify-center rounded-full bg-volt px-8 text-sm font-semibold text-ink sm:inline-flex sm:w-auto"
-                  >
-                    Start camera
-                  </Link>
-                ) : (
-                  <>
-                    <button
-                      type="button"
-                      disabled
-                      className="mt-6 h-12 w-full rounded-full bg-volt px-8 text-sm font-semibold text-ink opacity-40 sm:w-auto"
+                  {selected.ready ? (
+                    <Link
+                      to={`/ai-coach/${selected.id}`}
+                      className="mt-6 flex h-12 w-full items-center justify-center rounded-full bg-volt px-8 text-sm font-semibold text-ink sm:inline-flex sm:w-auto"
                     >
                       Start camera
-                    </button>
-                    <p className="mt-2 text-xs text-mute">The live camera for this exercise is coming soon.</p>
-                  </>
-                )}
+                    </Link>
+                  ) : (
+                    <>
+                      <button
+                        type="button"
+                        disabled
+                        className="mt-6 h-12 w-full rounded-full bg-volt px-8 text-sm font-semibold text-ink opacity-40 sm:w-auto"
+                      >
+                        Start camera
+                      </button>
+                      <p className="mt-2 text-xs text-mute">The live camera for this exercise is coming soon.</p>
+                    </>
+                  )}
+                </div>
               </div>
-            </div>
-          </Card>
+            </Card>
+          </div>
         )}
       </div>
     </AppLayout>
