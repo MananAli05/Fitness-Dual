@@ -3,7 +3,7 @@ import { NOTIFICATION_SETTINGS } from '../../constants/settings.js'
 import { useAuth } from '../../context/AuthContext.jsx'
 import { fetchSettings, saveSettings } from '../../lib/settings.js'
 import Alert from '../common/Alert.jsx'
-import Card from '../common/Card.jsx'
+import SettingsSection from './SettingsSection.jsx'
 import ToggleRow from './ToggleRow.jsx'
 
 export default function NotificationSettingsCard() {
@@ -43,7 +43,7 @@ export default function NotificationSettingsCard() {
   }
 
   return (
-    <Card title="Notifications" delay={0.04}>
+    <SettingsSection title="Reminders" description="Choose which reminders you want to see in the app." delay={0.04}>
       {settings ? (
         <div className="-my-4 divide-y divide-line">
           {NOTIFICATION_SETTINGS.map((setting) => (
@@ -67,6 +67,6 @@ export default function NotificationSettingsCard() {
           <Alert>{error}</Alert>
         </div>
       )}
-    </Card>
+    </SettingsSection>
   )
 }

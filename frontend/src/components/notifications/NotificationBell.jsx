@@ -5,7 +5,7 @@ import { useNotifications } from '../../context/NotificationContext.jsx'
 import { fetchNotifications, markAllNotificationsRead, markNotificationRead } from '../../lib/notifications.js'
 import { formatDay, formatTime } from '../../utils/dates.js'
 
-const PREVIEW_LIMIT = 6
+const PREVIEW_LIMIT = 5
 const nowIso = () => new Date().toISOString()
 
 export default function NotificationBell() {
@@ -72,7 +72,7 @@ export default function NotificationBell() {
         onClick={toggle}
         aria-label={`Notifications${unreadCount ? `, ${unreadCount} unread` : ''}`}
         aria-expanded={open}
-        className="relative flex h-11 w-11 items-center justify-center rounded-full border border-line bg-charcoal transition hover:border-white/25"
+        className="relative flex h-10 w-10 items-center justify-center rounded-full border border-line bg-charcoal transition hover:border-white/25"
       >
         <Bell className="h-5 w-5" strokeWidth={1.8} />
         {unreadCount > 0 && (
@@ -83,9 +83,9 @@ export default function NotificationBell() {
       </button>
 
       {open && (
-        <div className="fixed inset-x-4 top-20 z-50 overflow-hidden rounded-3xl border border-line bg-charcoal shadow-2xl sm:absolute sm:inset-x-auto sm:top-14 sm:right-0 sm:w-96">
-          <div className="flex items-center justify-between border-b border-line px-5 py-4">
-            <p className="font-semibold">Notifications</p>
+        <div className="fixed inset-x-4 top-20 z-50 overflow-hidden rounded-3xl border border-line bg-charcoal shadow-2xl sm:absolute sm:inset-x-auto sm:top-12 sm:right-0 sm:w-80">
+          <div className="flex items-center justify-between border-b border-line px-4 py-3">
+            <p className="text-sm font-semibold">Notifications</p>
             {unreadCount > 0 && (
               <button type="button" onClick={markAllRead} className="text-sm text-teal hover:underline">
                 Mark all as read
@@ -93,21 +93,23 @@ export default function NotificationBell() {
             )}
           </div>
 
-          <div className="max-h-[60vh] overflow-y-auto">
-            {!items && <p className="px-5 py-6 text-sm text-mute">Loading…</p>}
-            {items?.length === 0 && <p className="px-5 py-6 text-sm text-mute">You are all caught up.</p>}
+          <div className="max-h-72 overflow-y-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+            {!items && <p className="px-4 py-5 text-sm text-mute">Loading…</p>}
+            {items?.length === 0 && <p className="px-4 py-5 text-sm text-mute">You are all caught up.</p>}
             {items?.map((item) => (
               <button
                 key={item.id}
                 type="button"
                 onClick={() => openItem(item)}
-                className="flex w-full gap-3 border-b border-line px-5 py-4 text-left transition last:border-0 hover:bg-white/5"
+                className="flex w-full gap-3 border-b border-line px-4 py-3 text-left transition last:border-0 hover:bg-white/5"
               >
                 <span className={`mt-2 h-2 w-2 shrink-0 rounded-full ${item.read_at ? 'bg-transparent' : 'bg-volt'}`} />
                 <span className="min-w-0">
-                  <span className={`block font-semibold ${item.read_at ? 'text-soft' : 'text-paper'}`}>{item.title}</span>
-                  <span className="mt-0.5 block text-sm text-mute">{item.body}</span>
-                  <span className="mt-1 block text-xs text-mute">
+                  <span className={`block text-sm font-semibold ${item.read_at ? 'text-soft' : 'text-paper'}`}>
+                    {item.title}
+                  </span>
+                  <span className="mt-0.5 line-clamp-2 block text-xs text-mute">{item.body}</span>
+                  <span className="mt-1 block text-[11px] text-mute/80">
                     {formatDay(item.created_at)}, {formatTime(item.created_at)}
                   </span>
                 </span>
@@ -117,7 +119,7 @@ export default function NotificationBell() {
 
           <Link
             to="/notifications"
-            className="block border-t border-line px-5 py-3 text-center text-sm font-semibold text-volt hover:bg-white/5"
+            className="block border-t border-line px-4 py-2.5 text-center text-sm font-semibold text-volt hover:bg-white/5"
           >
             View all
           </Link>

@@ -15,7 +15,8 @@ export default function NotificationItem({ notification, onOpen, onMarkRead }) {
         />
         <div className="min-w-0">
           <p className="text-[11px] tracking-[0.14em] text-mute uppercase">
-            {KIND_LABELS[notification.kind]} · {formatDay(notification.created_at)}, {formatTime(notification.created_at)}
+            {KIND_LABELS[notification.kind]} · {formatDay(notification.created_at)},{' '}
+            {formatTime(notification.created_at)}
           </p>
           <p className={`mt-1 font-semibold ${unread ? 'text-paper' : 'text-soft'}`}>{notification.title}</p>
           <p className="mt-0.5 text-sm text-mute">{notification.body}</p>

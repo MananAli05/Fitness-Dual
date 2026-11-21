@@ -3,7 +3,7 @@ import { useProfile } from '../../context/ProfileContext.jsx'
 import { formatDay } from '../../utils/dates.js'
 import { getPhaseProgress } from '../../utils/phase.js'
 import Alert from '../common/Alert.jsx'
-import Card from '../common/Card.jsx'
+import SettingsSection from './SettingsSection.jsx'
 import PillButton from '../common/PillButton.jsx'
 import StatTile from '../common/StatTile.jsx'
 
@@ -25,7 +25,7 @@ export default function PhaseSettingsCard() {
   }
 
   return (
-    <Card title="Phase" delay={0.12}>
+    <SettingsSection title="Phase" description="Track your current phase or start it again from week 1." delay={0.08}>
       <div className="grid grid-cols-2 gap-3">
         <StatTile label="Current phase" value={phase.name} unit={`${phase.totalWeeks} weeks`} inset />
         <StatTile
@@ -54,6 +54,6 @@ export default function PhaseSettingsCard() {
           {saving ? 'Restarting…' : 'Restart phase'}
         </PillButton>
       </div>
-    </Card>
+    </SettingsSection>
   )
 }

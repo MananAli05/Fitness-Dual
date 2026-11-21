@@ -2,6 +2,7 @@ import { LogOut } from 'lucide-react'
 import { NavLink } from 'react-router-dom'
 import Avatar from '../components/common/Avatar.jsx'
 import Logo from '../components/common/Logo.jsx'
+import NotificationBell from '../components/notifications/NotificationBell.jsx'
 import { MOBILE_TOP_ITEMS, NAV_ITEMS } from '../constants/navigation.js'
 import { useAuth } from '../context/AuthContext.jsx'
 import { useNotifications } from '../context/NotificationContext.jsx'
@@ -130,6 +131,7 @@ export default function AppLayout({ children, mobileBar }) {
         <header className="flex items-center justify-between border-b border-white/6 px-4 py-3 sm:px-8 lg:hidden">
           <Logo size={28} />
           <div className="flex items-center gap-2">
+            <NotificationBell />
             {MOBILE_TOP_ITEMS.map((item) => (
               <MobileTopItem key={item.label} {...item} badge={getBadge(item.to)} />
             ))}

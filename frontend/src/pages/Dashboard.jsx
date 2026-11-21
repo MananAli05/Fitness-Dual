@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Alert from '../components/common/Alert.jsx'
-import NotificationBell from '../components/dashboard/NotificationBell.jsx'
+import NotificationBell from '../components/notifications/NotificationBell.jsx'
 import PhaseCard from '../components/dashboard/PhaseCard.jsx'
 import TodayStats from '../components/dashboard/TodayStats.jsx'
 import WorkoutCard from '../components/dashboard/WorkoutCard.jsx'
@@ -105,7 +105,9 @@ export default function Dashboard() {
               {getGreeting()}, <span className="capitalize">{name}</span>
             </h1>
           </div>
-          <NotificationBell />
+          <div className="hidden lg:block">
+            <NotificationBell />
+          </div>
         </header>
 
         {error && (

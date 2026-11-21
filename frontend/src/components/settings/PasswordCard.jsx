@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { useAuth } from '../../context/AuthContext.jsx'
 import { supabase } from '../../lib/supabase.js'
 import Alert from '../common/Alert.jsx'
-import Card from '../common/Card.jsx'
+import SettingsSection from './SettingsSection.jsx'
 import PrimaryButton from '../common/PrimaryButton.jsx'
 import TextField from '../common/TextField.jsx'
 
@@ -66,7 +66,7 @@ export default function PasswordCard() {
   }
 
   return (
-    <Card title="Change password" delay={0.08}>
+    <SettingsSection title="Password" description="Enter your current password to set a new one." delay={0.12}>
       <form onSubmit={handleSubmit} className="space-y-4" noValidate>
         <TextField
           id="current-password"
@@ -103,6 +103,6 @@ export default function PasswordCard() {
 
         <PrimaryButton loading={loading}>Update password</PrimaryButton>
       </form>
-    </Card>
+    </SettingsSection>
   )
 }
