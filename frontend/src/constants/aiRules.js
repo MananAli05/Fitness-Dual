@@ -10,6 +10,17 @@ function areKneesIn(points) {
   return kneeGap < ankleGap * 0.75
 }
 
+function armAngle(points, side) {
+  const [hip, shoulder, elbow] = side === 'left' ? [23, 11, 13] : [24, 12, 14]
+  return getAngle(points[hip], points[shoulder], points[elbow])
+}
+
+function areLegsOpen(points) {
+  const hipWidth = Math.abs(points[23].x - points[24].x)
+  const ankleGap = Math.abs(points[27].x - points[28].x)
+  return ankleGap > hipWidth * 1.5
+}
+
 export const AI_RULES = {
   squat: {
     sides: {
@@ -75,6 +86,53 @@ export const AI_RULES = {
     }),
     messages: {
       shallow: 'Press all the way up',
+    },
+  },
+
+  'lateral-raise': {
+    sides: {
+      left: { hip: 23, shoulder: 11, elbow: 13, wrist: 15 },
+      right: { hip: 24, shoulder: 12, elbow: 14, wrist: 16 },
+    },
+    bones: [
+      ['hip', 'shoulder'],
+      ['shoulder', 'elbow'],
+      ['elbow', 'wrist'],
+    ],
+    rest: 30,
+    target: 75,
+    start: 50,
+    measure: (joints, points) => ({
+      angle: getAngle(joints.hip, joints.shoulder, joints.elbow),
+      fault: Math.abs(armAngle(points, 'left') - armAngle(points, 'right')) > 25 ? 'uneven' : null,
+    }),
+    messages: {
+      shallow: 'Raise your arms to shoulder height',
+      uneven: 'Lift both arms evenly',
+    },
+  },
+
+  'jumping-jacks': {
+    sides: {
+      left: { shoulder: 11, elbow: 13, hip: 23, knee: 25, ankle: 27 },
+      right: { shoulder: 12, elbow: 14, hip: 24, knee: 26, ankle: 28 },
+    },
+    bones: [
+      ['shoulder', 'elbow'],
+      ['shoulder', 'hip'],
+      ['hip', 'knee'],
+      ['knee', 'ankle'],
+    ],
+    rest: 40,
+    target: 140,
+    start: 80,
+    measure: (joints, points) => {
+      const angle = getAngle(joints.hip, joints.shoulder, joints.elbow)
+      return { angle, fault: angle > 140 && !areLegsOpen(points) ? 'legs' : null }
+    },
+    messages: {
+      shallow: 'Bring your arms all the way up',
+      legs: 'Jump your feet out wider',
     },
   },
 }

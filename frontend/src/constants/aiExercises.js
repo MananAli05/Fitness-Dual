@@ -4,6 +4,8 @@ import lateralRaiseImage from '../assets/images/ai/lateral-raise.webp'
 import shoulderPressImage from '../assets/images/ai/shoulder-press.webp'
 import squatImage from '../assets/images/ai/squat.webp'
 import bicepCurlVideo from '../assets/videos/ai/bicep-curl.mp4'
+import jumpingJacksVideo from '../assets/videos/ai/jumping-jacks.mp4'
+import lateralRaiseVideo from '../assets/videos/ai/lateral-raise.mp4'
 import shoulderPressVideo from '../assets/videos/ai/shoulder-press.mp4'
 import squatVideo from '../assets/videos/ai/squat.mp4'
 
@@ -32,12 +34,14 @@ export const AI_EXERCISES = [
   {
     id: 'lateral-raise',
     image: lateralRaiseImage,
+    video: lateralRaiseVideo,
     checks: 'Both arms even and up to shoulder height',
     steps: ['Arms by your sides, elbows soft', 'Raise both arms out to shoulder height', 'Lower slowly, do not swing'],
   },
   {
     id: 'jumping-jacks',
     image: jumpingJacksImage,
+    video: jumpingJacksVideo,
     checks: 'Arms and legs opening together',
     steps: ['Stand tall, feet together', 'Jump feet out and raise arms overhead', 'Jump back to the start, keep a steady pace'],
   },

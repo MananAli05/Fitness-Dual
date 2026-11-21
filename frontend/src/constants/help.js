@@ -55,7 +55,7 @@ export const HELP_SECTIONS = [
       {
         question: 'How should I set up my camera?',
         answer:
-          'Stand 2 to 3 metres from the camera in a well lit room and keep your whole body in the frame. For squats and curls, standing side on works best. For the shoulder press, face the camera.',
+          'Stand 2 to 3 metres from the camera in a well lit room and keep your whole body in the frame. For squats and curls, standing side on works best. For the shoulder press, lateral raise and jumping jacks, face the camera.',
       },
       {
         question: 'Is my camera video saved anywhere?',
