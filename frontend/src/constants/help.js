@@ -40,6 +40,36 @@ export const HELP_SECTIONS = [
     ],
   },
   {
+    title: 'AI Coach',
+    topics: [
+      {
+        question: 'How does the AI Coach count my reps?',
+        answer:
+          'Pick an exercise and tap Start camera. The app finds the points of your body, like shoulders, elbows and knees, and measures the angle of your joints. When you move through the full range and come back, it counts one rep.',
+      },
+      {
+        question: 'Why was my rep not counted?',
+        answer:
+          'A rep is only counted with good form. You will see the reason on screen, for example Go lower on a half squat, or Keep your elbows still if you swing the weight. These reps show under Not counted.',
+      },
+      {
+        question: 'How should I set up my camera?',
+        answer:
+          'Stand 2 to 3 metres from the camera in a well lit room and keep your whole body in the frame. For squats and curls, standing side on works best. For the shoulder press, face the camera.',
+      },
+      {
+        question: 'Is my camera video saved anywhere?',
+        answer:
+          'No. The video is processed inside your browser and never uploaded or stored. Only your rep count is saved to your workout history when you tap Finish set.',
+      },
+      {
+        question: 'The camera does not start. What can I do?',
+        answer:
+          'Allow camera access when your browser asks. If you blocked it before, click the camera icon in the address bar and allow it. Close other apps that use the camera, like Zoom, and check your internet the first time so the AI model can load.',
+      },
+    ],
+  },
+  {
     title: 'Nutrition and water',
     topics: [
       {
@@ -59,12 +89,12 @@ export const HELP_SECTIONS = [
       {
         question: 'Why am I getting reminders?',
         answer:
-          'Reminders are based on your own logs, for example when no food is logged by late morning. You can turn each type of reminder on or off in Settings.',
+          'Reminders are based on your own logs, for example when no food is logged by late morning. Tap the bell on the dashboard to read them. You can turn each type of reminder on or off in Settings.',
       },
       {
         question: 'How do I change my password?',
         answer:
-          'Open Settings and use Change password. If you are logged out, use Forgot password on the login screen to get a reset link by email.',
+          'Open Settings, enter your current password and then your new password twice. If you forgot your current password, log out and use Forgot password on the login screen to get a reset link by email.',
       },
       {
         question: 'Who can see my data?',
@@ -77,6 +107,7 @@ export const HELP_SECTIONS = [
 
 export const HELP_LINKS = [
   { label: 'Start a workout', to: '/workouts' },
+  { label: 'Train with AI Coach', to: '/ai-coach' },
   { label: 'Log food and water', to: '/nutrition' },
   { label: 'Edit profile and phase', to: '/profile' },
   { label: 'Notification settings', to: '/settings' },

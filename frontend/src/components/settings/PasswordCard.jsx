@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useAuth } from '../../context/AuthContext.jsx'
 import { supabase } from '../../lib/supabase.js'
 import Alert from '../common/Alert.jsx'
 import Card from '../common/Card.jsx'
@@ -6,9 +7,10 @@ import PrimaryButton from '../common/PrimaryButton.jsx'
 import TextField from '../common/TextField.jsx'
 
 const MIN_PASSWORD_LENGTH = 8
-const EMPTY_FORM = { password: '', confirm: '' }
+const EMPTY_FORM = { current: '', password: '', confirm: '' }
 
 export default function PasswordCard() {
+  const { user } = useAuth()
   const [form, setForm] = useState(EMPTY_FORM)
   const [errors, setErrors] = useState({})
   const [notice, setNotice] = useState(null)
@@ -24,8 +26,13 @@ export default function PasswordCard() {
     e.preventDefault()
 
     const newErrors = {}
+    if (!form.current) {
+      newErrors.current = 'Enter your current password'
+    }
     if (form.password.length < MIN_PASSWORD_LENGTH) {
       newErrors.password = `Use at least ${MIN_PASSWORD_LENGTH} characters`
+    } else if (form.password === form.current) {
+      newErrors.password = 'New password must be different from the current one'
     }
     if (form.confirm !== form.password) {
       newErrors.confirm = 'Passwords do not match'
@@ -35,6 +42,17 @@ export default function PasswordCard() {
     if (Object.keys(newErrors).length > 0) return
 
     setLoading(true)
+    const { error: wrongPassword } = await supabase.auth.signInWithPassword({
+      email: user.email,
+      password: form.current,
+    })
+
+    if (wrongPassword) {
+      setLoading(false)
+      setErrors({ current: 'Current password is wrong' })
+      return
+    }
+
     const { error } = await supabase.auth.updateUser({ password: form.password })
     setLoading(false)
 
@@ -50,6 +68,16 @@ export default function PasswordCard() {
   return (
     <Card title="Change password" delay={0.08}>
       <form onSubmit={handleSubmit} className="space-y-4" noValidate>
+        <TextField
+          id="current-password"
+          label="Current password"
+          type="password"
+          placeholder="Your current password"
+          autoComplete="current-password"
+          value={form.current}
+          onChange={handleChange('current')}
+          error={errors.current}
+        />
         <TextField
           id="new-password"
           label="New password"

@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Alert from '../components/common/Alert.jsx'
+import NotificationBell from '../components/dashboard/NotificationBell.jsx'
 import PhaseCard from '../components/dashboard/PhaseCard.jsx'
 import TodayStats from '../components/dashboard/TodayStats.jsx'
 import WorkoutCard from '../components/dashboard/WorkoutCard.jsx'
@@ -97,11 +98,14 @@ export default function Dashboard() {
   return (
     <AppLayout>
       <div className="mx-auto max-w-[1400px] px-4 py-6 sm:px-8 lg:py-8">
-        <header>
-          <p className="text-xs tracking-[0.14em] text-mute uppercase">{TODAY}</p>
-          <h1 className="mt-2 text-[clamp(1.9rem,4vw,3rem)] leading-none font-semibold tracking-[-0.04em]">
-            {getGreeting()}, <span className="capitalize">{name}</span>
-          </h1>
+        <header className="flex items-start justify-between gap-4">
+          <div>
+            <p className="text-xs tracking-[0.14em] text-mute uppercase">{TODAY}</p>
+            <h1 className="mt-2 text-[clamp(1.9rem,4vw,3rem)] leading-none font-semibold tracking-[-0.04em]">
+              {getGreeting()}, <span className="capitalize">{name}</span>
+            </h1>
+          </div>
+          <NotificationBell />
         </header>
 
         {error && (

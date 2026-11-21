@@ -1,5 +1,6 @@
-import { createContext, useCallback, useContext, useEffect, useState } from 'react'
+import { createContext, useCallback, useContext, useEffect, useRef, useState } from 'react'
 import { countUnreadNotifications, createNotifications } from '../lib/notifications.js'
+import { playNotificationTone } from '../utils/sound.js'
 import { useAuth } from './AuthContext.jsx'
 
 const NotificationContext = createContext(null)
@@ -7,14 +8,18 @@ const NotificationContext = createContext(null)
 export function NotificationProvider({ children }) {
   const { user } = useAuth()
   const [unread, setUnread] = useState({ userId: null, count: 0 })
+  const lastCountRef = useRef(null)
 
   useEffect(() => {
     if (!user) return
 
     let cancelled = false
+    lastCountRef.current = null
 
     countUnreadNotifications().then(({ count }) => {
-      if (!cancelled) setUnread({ userId: user.id, count })
+      if (cancelled) return
+      lastCountRef.current = count
+      setUnread({ userId: user.id, count })
     })
 
     return () => {
@@ -24,6 +29,8 @@ export function NotificationProvider({ children }) {
 
   const refreshUnread = useCallback(async () => {
     const { count } = await countUnreadNotifications()
+    if (lastCountRef.current !== null && count > lastCountRef.current) playNotificationTone()
+    lastCountRef.current = count
     setUnread({ userId: user.id, count })
   }, [user])
 
