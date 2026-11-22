@@ -2,6 +2,7 @@ import Avatar from '../components/common/Avatar.jsx'
 import Card from '../components/common/Card.jsx'
 import PageHeader from '../components/common/PageHeader.jsx'
 import PillButton from '../components/common/PillButton.jsx'
+import NameCard from '../components/settings/NameCard.jsx'
 import NotificationSettingsCard from '../components/settings/NotificationSettingsCard.jsx'
 import PasswordCard from '../components/settings/PasswordCard.jsx'
 import PhaseSettingsCard from '../components/settings/PhaseSettingsCard.jsx'
@@ -36,6 +37,7 @@ export default function Settings() {
             </div>
           </Card>
 
+          <NameCard />
           <NotificationSettingsCard />
           <PhaseSettingsCard />
           <PasswordCard />
