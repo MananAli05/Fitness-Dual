@@ -8,7 +8,7 @@ import { useProfile } from '../context/ProfileContext.jsx'
 import AppLayout from '../layouts/AppLayout.jsx'
 import { loadPoseModel } from '../lib/pose.js'
 import { saveWorkout } from '../lib/workouts.js'
-import { RepCounter, readJoints, smoothPoints } from '../utils/reps.js'
+import { RepCounter, readSides, smoothPoints, toSquarePoints } from '../utils/reps.js'
 import { getTarget } from '../utils/workouts.js'
 
 const MESSAGES = {
@@ -24,13 +24,18 @@ function speak(text) {
   window.speechSynthesis.speak(new SpeechSynthesisUtterance(text))
 }
 
-function drawBody(canvas, joints, bones) {
+function drawBody(canvas, view, bones, aspect) {
   const context = canvas.getContext('2d')
   context.clearRect(0, 0, canvas.width, canvas.height)
-  if (!joints) return
+  if (!view) return
 
-  const toPixel = (point) => [point.x * canvas.width, point.y * canvas.height]
+  const toPixel = (point) => [(point.x / aspect) * canvas.width, point.y * canvas.height]
+  for (const joints of [view.left, view.right]) {
+    if (joints) drawSide(context, joints, bones, toPixel)
+  }
+}
 
+function drawSide(context, joints, bones, toPixel) {
   context.strokeStyle = '#c6ff3d'
   context.lineWidth = 6
   context.lineCap = 'round'
@@ -63,6 +68,7 @@ export default function AiSession() {
   const startedAtRef = useRef(null)
 
   const [phase, setPhase] = useState('loading')
+  const [ratio, setRatio] = useState(16 / 9)
   const [countdown, setCountdown] = useState(3)
   const [message, setMessage] = useState(MESSAGES.loading)
   const [reps, setReps] = useState(0)
@@ -97,11 +103,12 @@ export default function AiSession() {
         lastTime = video.currentTime
         const result = landmarker.detectForVideo(video, performance.now())
         const raw = result.landmarks[0]
-        points = raw ? smoothPoints(points, raw) : null
+        const aspect = video.videoWidth / video.videoHeight
+        points = raw ? smoothPoints(points, toSquarePoints(raw, aspect)) : null
 
-        const joints = points ? readJoints(points, rules.sides) : null
-        const reading = joints ? rules.measure(joints, points) : null
-        drawBody(canvas, joints, rules.bones)
+        const view = points ? readSides(points, rules.sides) : null
+        const reading = view ? rules.measure(view, points) : null
+        drawBody(canvas, view, rules.bones, aspect)
 
         if (phaseRef.current === 'position' && reading) {
           changePhase('countdown')
@@ -140,6 +147,7 @@ export default function AiSession() {
         await video.play()
         canvasRef.current.width = video.videoWidth
         canvasRef.current.height = video.videoHeight
+        setRatio(video.videoWidth / video.videoHeight)
 
         changePhase('position')
         setMessage(MESSAGES.position)
@@ -273,8 +281,11 @@ export default function AiSession() {
         </div>
 
         <div className="mt-6 grid gap-4 lg:grid-cols-[minmax(0,1fr)_320px]">
-          <div className="relative overflow-hidden rounded-3xl bg-charcoal">
-            <video ref={videoRef} muted playsInline className="aspect-video w-full -scale-x-100 object-cover" />
+          <div
+            className="relative mx-auto w-full overflow-hidden rounded-3xl bg-charcoal"
+            style={{ aspectRatio: ratio, maxWidth: ratio < 1 ? 480 : undefined }}
+          >
+            <video ref={videoRef} muted playsInline className="h-full w-full -scale-x-100 object-cover" />
             <canvas ref={canvasRef} className="absolute inset-0 h-full w-full -scale-x-100 object-cover" />
 
             {error && (

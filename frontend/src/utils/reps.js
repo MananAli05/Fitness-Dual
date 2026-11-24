@@ -1,9 +1,14 @@
 const MIN_VISIBILITY = 0.5
+const FAULT_FRAMES = 6
 
 export function getAngle(a, b, c) {
   const radians = Math.atan2(c.y - b.y, c.x - b.x) - Math.atan2(a.y - b.y, a.x - b.x)
   const degrees = Math.abs((radians * 180) / Math.PI)
   return degrees > 180 ? 360 - degrees : degrees
+}
+
+export function toSquarePoints(landmarks, aspect) {
+  return landmarks.map((point) => ({ x: point.x * aspect, y: point.y, visibility: point.visibility }))
 }
 
 export function smoothPoints(previous, current, alpha = 0.5) {
@@ -15,22 +20,23 @@ export function smoothPoints(previous, current, alpha = 0.5) {
   }))
 }
 
-function pickSide(points, sides) {
-  const score = (side) => Object.values(sides[side]).reduce((sum, index) => sum + points[index].visibility, 0)
-  return score('left') >= score('right') ? 'left' : 'right'
+export function isVisible(...points) {
+  return points.every((point) => point.visibility > MIN_VISIBILITY)
 }
 
-export function readJoints(points, sides) {
-  const side = pickSide(points, sides)
-  const joints = Object.fromEntries(Object.entries(sides[side]).map(([name, index]) => [name, points[index]]))
-  const visible = Object.values(joints).every((point) => point.visibility > MIN_VISIBILITY)
-  return visible ? joints : null
+export function readSides(points, sides) {
+  const read = (side) => {
+    const joints = Object.fromEntries(Object.entries(sides[side]).map(([name, index]) => [name, points[index]]))
+    return isVisible(...Object.values(joints)) ? joints : null
+  }
+  return { left: read('left'), right: read('right') }
 }
 
 export class RepCounter {
   stage = 'rest'
   moved = false
   fault = null
+  faultFrames = 0
   reps = 0
   noReps = 0
 
@@ -48,10 +54,11 @@ export class RepCounter {
     }
 
     const angle = rawAngle * this.direction
+    this.faultFrames = fault ? this.faultFrames + 1 : 0
 
     if (angle < this.start) {
       this.moved = true
-      if (fault) this.fault = fault
+      if (this.faultFrames >= FAULT_FRAMES) this.fault = fault
     }
 
     if (angle < this.target) this.stage = 'target'
@@ -66,6 +73,7 @@ export class RepCounter {
     this.stage = 'rest'
     this.moved = false
     this.fault = null
+    this.faultFrames = 0
   }
 
   finishRep() {
